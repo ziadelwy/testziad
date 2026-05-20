@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -46,4 +46,590 @@
         <p>سيتم إضافة المحتوى قريباً إن شاء الله</p>
     </div>
 </body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wireloom Studio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0b0d12;
+      --panel: #12151d;
+      --surface: #171b25;
+      --border: #252b38;
+      --text: #e5e7eb;
+      --muted: #6b7280;
+      --accent: #4f8cff;
+      --success: #34d399;
+      --error: #f87171;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      height: 52px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      background: var(--panel);
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: .04em;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    button {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      filter: brightness(1.08);
+    }
+
+    .workspace {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .editor-pane,
+    .preview-pane {
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .editor-pane {
+      border-right: 1px solid var(--border);
+      background: #0f1117;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pane-header {
+      height: 44px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: var(--panel);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .editor-shell {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      overflow: hidden;
+    }
+
+    #lines {
+      width: 56px;
+      flex-shrink: 0;
+      overflow: hidden;
+      padding: 16px 10px;
+      border-right: 1px solid #1c2230;
+      color: #596174;
+      background: #0c0f14;
+      font-size: 13px;
+      line-height: 1.7;
+      font-family: 'IBM Plex Mono', monospace;
+      text-align: right;
+      user-select: none;
+    }
+
+    #editor {
+      flex: 1;
+      border: none;
+      outline: none;
+      resize: none;
+      background: transparent;
+      color: #d6deeb;
+      font-size: 13px;
+      line-height: 1.7;
+      padding: 16px;
+      overflow: auto;
+      font-family: 'IBM Plex Mono', monospace;
+      white-space: pre;
+      caret-color: var(--accent);
+    }
+
+    .preview-pane {
+      display: flex;
+      flex-direction: column;
+      background: #0d1016;
+    }
+
+    .preview-toolbar {
+      height: 44px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+    }
+
+    .preview-toolbar button {
+      height: 30px;
+      font-size: 12px;
+    }
+
+    .stats {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .viewport {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      position: relative;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .canvas {
+      position: relative;
+      min-width: max-content;
+      min-height: max-content;
+      padding: 60px;
+      transform-origin: top left;
+      will-change: transform;
+    }
+
+    #svg-root svg {
+      display: block;
+      flex-shrink: 0;
+      image-rendering: optimizeQuality;
+    }
+
+    .empty {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #566074;
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    .error {
+      position: absolute;
+      bottom: 18px;
+      left: 18px;
+      right: 18px;
+      background: rgba(248,113,113,.12);
+      border: 1px solid rgba(248,113,113,.3);
+      color: #fca5a5;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-family: monospace;
+      backdrop-filter: blur(10px);
+    }
+
+    .hint {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      background: rgba(79, 140, 255, 0.12);
+      border: 1px solid rgba(79, 140, 255, 0.28);
+      color: #9fc0ff;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-family: monospace;
+      backdrop-filter: blur(10px);
+      max-width: 420px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🧵 Wireloom Studio</div>
+
+  <div class="top-actions">
+    <div class="status" id="status">Idle</div>
+    <button id="copyBtn">Copy</button>
+    <button id="downloadCodeBtn">Download Code</button>
+    <button id="downloadBtn">Download SVG</button>
+  </div>
+  
+  
+</header>
+
+<div class="workspace">
+  <section class="editor-pane">
+    <div class="pane-header">
+      <span>DSL / Script Editor</span>
+      <span id="charCount">0 chars</span>
+    </div>
+
+    <div class="editor-shell">
+      <div id="lines">1</div>
+      <textarea id="editor" spellcheck="false"></textarea>
+    </div>
+  </section>
+
+  <section class="preview-pane">
+    <div class="preview-toolbar">
+      <button id="zoomIn">+</button>
+      <button id="zoomOut">-</button>
+      <button id="resetZoom">100%</button>
+      <div class="stats" id="stats">0ms</div>
+    </div>
+
+    <div class="viewport" id="viewport">
+      <div class="canvas" id="canvas">
+        <div id="svg-root"></div>
+      </div>
+
+      <div class="empty" id="empty">
+        </code>
+      </div>
+
+      <div class="error" id="error" hidden></div>
+      <div class="hint" id="hint" hidden></div>
+    </div>
+  </section>
+</div>
+
+<script>
+  const editor = document.getElementById('editor');
+  const lines = document.getElementById('lines');
+  const svgRoot = document.getElementById('svg-root');
+  const empty = document.getElementById('empty');
+  const errorBox = document.getElementById('error');
+  const hintBox = document.getElementById('hint');
+  const status = document.getElementById('status');
+  const stats = document.getElementById('stats');
+  const charCount = document.getElementById('charCount');
+  const canvas = document.getElementById('canvas');
+  const downloadCodeBtn = document.getElementById('downloadCodeBtn');
+
+  const zoomIn = document.getElementById('zoomIn');
+  const zoomOut = document.getElementById('zoomOut');
+  const resetZoom = document.getElementById('resetZoom');
+  const copyBtn = document.getElementById('copyBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+
+  let renderToken = 0;
+  let activeController = null;
+  let raf = null;
+  let zoom = 1;
+  let latestSVG = '';
+
+//   editor.value = `import { render } from './dist/index.js';
+// import { writeFileSync } from 'fs';
+
+// const source = \`window "Shopping Cart":
+//   navbar:
+//     leading:
+//       backbutton "Cart"
+//     trailing:
+//       button "" icon="search"
+//   panel:
+//     row justify=start:
+//       text "Bullion Trading Center" bold size=large
+//     list:
+//       slot "21k Gold Necklace":
+//         kv "Price" "SAR 2,450.00"
+//         kv "Qty" "1"
+//       slot "22k Gold Bracelet":
+//         kv "Price" "SAR 3,100.00"
+//         kv "Qty" "1"
+//     divider
+//     row justify=start:
+//       input placeholder="Enter Promo Code"
+//       spacer
+//       button "Apply" primary
+//     divider
+//     kv "Subtotal" "SAR 5,550.00"
+//     kv "Tabby Split" "SAR 1,387.50 x 4" accent=success
+//     kv "Total" "SAR 5,550.00" bold
+//     row justify=start:
+//       button "Proceed to Checkout with Mada" primary
+//   tabbar:
+//     tabitem "Home" icon="planet"
+//     tabitem "Cart" icon="star" selected
+//     tabitem "Profile" icon="leader"
+//     tabitem "Settings" icon="gear"\`;
+
+// const result = await render("test", source, { theme: "light" });
+// writeFileSync('output.svg', result.svg);
+// console.log("Done! ✅");`;
+
+  function updateLines() {
+    const count = editor.value.split('\n').length;
+    lines.innerHTML = Array.from({ length: count }, (_, i) => i + 1).join('<br>');
+    charCount.textContent = `${editor.value.length} chars`;
+  }
+  downloadCodeBtn.onclick = downloadCodeFile;
+
+  editor.addEventListener('scroll', () => {
+    lines.scrollTop = editor.scrollTop;
+  });
+
+  function setStatus(text) {
+    status.textContent = text;
+  }
+
+  function sanitizeSVG(svgText) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svgText, 'image/svg+xml');
+    doc.querySelectorAll('script').forEach(el => el.remove());
+    return doc.documentElement.outerHTML;
+  }
+
+  function applyZoom() {
+    canvas.style.transform = `scale(${zoom})`;
+  }
+
+  function extractSourceFromInput(text) {
+    const raw = String(text ?? '').trim();
+    if (!raw) return { source: '', extracted: false };
+
+    const patterns = [
+      /(?:const|let|var)\s+source\s*=\s*`([\s\S]*?)`/m,
+      /(?:const|let|var)\s+source\s*=\s*'([\s\S]*?)'/m,
+      /(?:const|let|var)\s+source\s*=\s*"([\s\S]*?)"/m,
+      /source\s*=\s*`([\s\S]*?)`/m
+    ];
+
+    for (const pattern of patterns) {
+      const match = raw.match(pattern);
+      if (match?.[1]) {
+        return { source: match[1].trim(), extracted: true };
+      }
+    }
+
+    return { source: raw, extracted: false };
+  }
+
+  async function renderDSL(input) {
+    if (activeController) {
+      activeController.abort();
+    }
+
+    activeController = new AbortController();
+    const token = ++renderToken;
+
+    const { source, extracted } = extractSourceFromInput(input);
+
+    if (!source) {
+      empty.hidden = false;
+      svgRoot.innerHTML = '';
+      errorBox.hidden = true;
+      hintBox.hidden = true;
+      return;
+    }
+
+    if (extracted) {
+      hintBox.hidden = false;
+      hintBox.textContent = '';
+    } else {
+      hintBox.hidden = true;
+    }
+
+    setStatus('Rendering...');
+
+    try {
+      const res = await fetch('/render', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          source: input,
+          theme: 'light'
+        }),
+        signal: activeController.signal
+      });
+
+      const data = await res.json();
+
+      if (token !== renderToken) return;
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Render failed');
+      }
+
+      latestSVG = data.svg;
+
+      cancelAnimationFrame(raf);
+
+      raf = requestAnimationFrame(() => {
+        const safeSVG = sanitizeSVG(data.svg);
+
+        svgRoot.innerHTML = safeSVG;
+        empty.hidden = true;
+        errorBox.hidden = true;
+
+        stats.textContent = `${data.duration || 0}ms`;
+        setStatus(data.cached ? 'Cached' : 'Ready');
+      });
+
+    } catch (err) {
+      if (err.name === 'AbortError') return;
+
+      errorBox.hidden = false;
+      errorBox.textContent = err.message;
+      setStatus('Error');
+    }
+  }
+
+  let debounce = null;
+
+  function scheduleRender() {
+    updateLines();
+
+    const raw = editor.value.trim();
+
+    if (!raw) {
+      empty.hidden = false;
+      svgRoot.innerHTML = '';
+      hintBox.hidden = true;
+      return;
+    }
+
+    clearTimeout(debounce);
+
+    debounce = setTimeout(() => {
+      renderDSL(raw);
+    }, 80);
+  }
+
+  editor.addEventListener('input', scheduleRender);
+
+  editor.addEventListener('keydown', e => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+
+      editor.value =
+        editor.value.substring(0, start) +
+        '  ' +
+        editor.value.substring(end);
+
+      editor.selectionStart = editor.selectionEnd = start + 2;
+      scheduleRender();
+    }
+  });
+
+  zoomIn.onclick = () => {
+    zoom = Math.min(zoom + 0.1, 3);
+    applyZoom();
+  };
+
+  zoomOut.onclick = () => {
+    zoom = Math.max(zoom - 0.1, 0.2);
+    applyZoom();
+  };
+
+  resetZoom.onclick = () => {
+    zoom = 1;
+    applyZoom();
+  };
+
+  copyBtn.onclick = async () => {
+    await navigator.clipboard.writeText(editor.value);
+    setStatus('Copied');
+  };
+
+  downloadBtn.onclick = () => {
+    if (!latestSVG) return;
+
+    const blob = new Blob([latestSVG], {
+      type: 'image/svg+xml'
+    });
+
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'wireloom.svg';
+    a.click();
+  };
+  function downloadCodeFile() {
+  const code = editor.value;
+  if (!code.trim()) return;
+
+  const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'wireloom-input.js';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+}
+
+  updateLines();
+  scheduleRender();
+</script>
+
+</body>
 </html>
+
