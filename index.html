@@ -1,3 +1,5 @@
+ <!-- الديناميكية تتم هنا 
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" class="dark">
 <head>
@@ -70,7 +72,6 @@
 
   <div class="flex-1 flex flex-col max-w-md mx-auto w-full h-full relative px-3 py-2 sm:px-4 sm:py-3 justify-between">
     
-    <!-- Header -->
     <header class="flex justify-between items-center py-1 sm:py-2 shrink-0">
       <div class="flex items-center gap-2">
         <h1 class="text-xl sm:text-2xl font-black tracking-wide text-slate-800 dark:text-white" id="headerTitle">سجل الدومينوز</h1>
@@ -89,7 +90,6 @@
       </div>
     </header>
 
-    <!-- Scoreboard -->
     <section class="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-700 rounded-3xl p-4 sm:p-5 shadow-lg flex flex-col justify-center shrink-0 transition-all duration-300">
       
       <div class="flex justify-between items-center mb-3 text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 border-b border-slate-100 dark:border-slate-700 pb-2">
@@ -98,7 +98,6 @@
       </div>
 
       <div id="scoresGrid" class="grid grid-cols-2 gap-4 divide-x divide-x-reverse divide-slate-200 dark:divide-slate-700">
-        <!-- الديناميكية تتم هنا -->
       </div>
 
       <div class="grid grid-cols-2 gap-3 mt-4">
@@ -113,21 +112,17 @@
       </div>
     </section>
 
-    <!-- Inputs & Submit Button -->
     <section class="flex items-center justify-between gap-3 py-2 shrink-0">
       <button id="submitBtn" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-slate-800 text-white dark:bg-white dark:text-black font-extrabold flex items-center justify-center text-lg shadow-[0_0_15px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:scale-105 active:scale-95 transition-all shrink-0">
         سجل
       </button>
 
       <div id="inputsContainer" class="flex-1 flex justify-around items-center gap-2">
-        <!-- Inputs injected via JS -->
       </div>
       
     </section>
 
-    <!-- Touch Numpad (Enlarged) -->
     <section class="mt-4 shrink-0 flex-1 flex flex-col justify-end pb-2">
-      <!-- Quick Adds -->
       <div class="grid grid-cols-4 gap-2 sm:gap-3 mb-3 sm:mb-4">
         <button onclick="addQuickScore(5)" class="py-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-lg active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+5</button>
         <button onclick="addQuickScore(10)" class="py-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-lg active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+10</button>
@@ -135,10 +130,8 @@
         <button onclick="addQuickScore(50)" class="py-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-lg active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+50</button>
       </div>
       
-      <!-- Keypad -->
       <div class="bg-white dark:bg-brand-card rounded-3xl p-3 sm:p-4 shadow-md border border-slate-200 dark:border-slate-800">
         <div class="grid grid-cols-3 gap-2 sm:gap-3">
-          <!-- تعديل ترتيب الأزرار لتبدأ بـ 1 من اليسار في اتجاه RTL وتكبير الحجم -->
           <button onclick="pressKey('3')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">3</button>
           <button onclick="pressKey('2')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">2</button>
           <button onclick="pressKey('1')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">1</button>
@@ -161,7 +154,6 @@
     </section>
   </div>
 
-  <!-- History Modal -->
   <div id="historyModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-opacity duration-300">
     <div class="bg-white dark:bg-brand-darker rounded-t-[32px] w-full max-w-md p-5 sm:p-6 shadow-2xl transform translate-y-full transition-transform duration-300 h-[70vh] flex flex-col">
       <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3 mb-3 shrink-0">
@@ -176,7 +168,6 @@
     </div>
   </div>
 
-  <!-- Settings Modal -->
   <div id="settingsModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-opacity duration-300">
     <div class="bg-white dark:bg-brand-darker rounded-t-[32px] w-full max-w-md p-5 sm:p-6 space-y-4 sm:space-y-5 shadow-2xl transform translate-y-full transition-transform duration-300 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
@@ -209,7 +200,6 @@
       <div class="space-y-2">
         <label class="block text-sm font-bold text-slate-600 dark:text-slate-400">أسماء الفرق/اللاعبين:</label>
         <div id="namesInputContainer" class="space-y-2">
-          <!-- Dynamically generated -->
         </div>
       </div>
 
@@ -219,7 +209,6 @@
     </div>
   </div>
 
-  <!-- Confirm Reset Modal -->
   <div id="confirmModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 px-4">
     <div class="bg-white dark:bg-brand-darker rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-2xl text-center transform scale-95 transition-transform duration-300 border border-slate-200 dark:border-slate-800">
       <div class="w-14 h-14 rounded-full bg-rose-100 dark:bg-rose-500/10 text-rose-600 dark:text-rose-500 flex items-center justify-center mx-auto">
@@ -243,7 +232,6 @@
     </div>
   </div>
 
-  <!-- Winner Modal -->
   <div id="winnerModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 px-4 overflow-hidden">
     <div id="confettiContainer" class="absolute inset-0 pointer-events-none"></div>
     <div class="bg-white dark:bg-brand-darker border-4 border-amber-400 rounded-3xl w-full max-w-sm p-6 text-center shadow-[0_0_50px_rgba(245,158,11,0.3)] relative z-10 transform scale-95 transition-transform duration-300 space-y-4">
@@ -271,7 +259,6 @@
     </div>
   </div>
 
-  <!-- Toast -->
   <div id="toastMessage" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white dark:bg-white dark:text-slate-900 text-xs sm:text-sm font-bold px-5 py-3 rounded-full shadow-2xl transition-all duration-300 opacity-0 pointer-events-none z-[60] flex items-center gap-2">
     <span id="toastText"></span>
   </div>
@@ -843,3 +830,4 @@
   </script>
 </body>
 </html>
+-->
