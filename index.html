@@ -260,9 +260,14 @@
         <p id="winnerAnnounceText" class="text-2xl font-black text-slate-800 dark:text-white"></p>
       </div>
 
-      <button onclick="closeWinnerModalAndReset()" class="w-full py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-black font-extrabold text-base transition-all active:scale-95 shadow-lg shadow-amber-500/20">
-        بدء جولة جديدة
-      </button>
+      <div class="flex flex-col gap-2 w-full mt-2">
+        <button onclick="closeWinnerModalAndReset()" class="w-full py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-black font-extrabold text-base transition-all active:scale-95 shadow-lg shadow-amber-500/20">
+          بدء جولة جديدة
+        </button>
+        <button onclick="undoFromWinnerModal()" class="w-full py-2.5 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm transition-all active:scale-95 border border-slate-200 dark:border-slate-700">
+          تراجع (إدخال خاطئ)
+        </button>
+      </div>
     </div>
   </div>
 
@@ -300,6 +305,8 @@
       teamB: '',
       teamC: ''
     };
+
+    let lastWinnerParty = null;
 
     window.addEventListener('load', () => {
       loadFromLocalStorage();
@@ -559,6 +566,19 @@
       showToast("تم التراجع عن الجولة الأخيرة بنجاح!");
     }
 
+    function undoFromWinnerModal() {
+      hideModal('winnerModal');
+      
+      // التراجع عن احتساب حالة الفوز التي تمت للتو في السجل المتراكم
+      if (lastWinnerParty) {
+        state.gamesWon[lastWinnerParty] = Math.max(0, state.gamesWon[lastWinnerParty] - 1);
+        lastWinnerParty = null;
+      }
+
+      // التراجع الفعلي عن آخر جولة مسجلة
+      undoLastRound();
+    }
+
     function checkGameWinner() {
       const parties = getActiveParties();
       const target = state.target;
@@ -591,6 +611,8 @@
     }
 
     function triggerWinner(winnerParty, reason) {
+      lastWinnerParty = winnerParty;
+
       // Increment Match Wins
       state.gamesWon[winnerParty] = (state.gamesWon[winnerParty] || 0) + 1;
       saveToLocalStorage();
@@ -623,6 +645,7 @@
 
     function closeWinnerModalAndReset() {
       hideModal('winnerModal');
+      lastWinnerParty = null;
       // Reset scores and history, but keep gamesWon
       getActiveParties().forEach(p => state.scores[p] = 0);
       state.history = [];
