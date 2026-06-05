@@ -37,7 +37,8 @@
             margin-bottom: 20px;
             color: #ced4da;
         }
-    </style>
+    <
+/style>
 </head>
 <body>
     <div class="container">
@@ -51,21 +52,18 @@
 
 
 
-
-
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>حاسبة نقاط الدومينوز الاحترافية</title>
-  <!-- خط كاريو المميز والمناسب للواجهات العربية -->
+  <title>قيد الدومينوز والبلوت</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <!-- مكتبة تيلويند لتصميم عصري وسريع -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -74,18 +72,28 @@
           fontFamily: {
             cairo: ['Cairo', 'sans-serif'],
           },
+          colors: {
+            brand: {
+              dark: '#111827',
+              darker: '#030712',
+              card: '#1f2937'
+            }
+          }
         },
       },
     }
   </script>
   <style>
-    /* منع التحديد والزوم المزعج على الهواتف عند النقر السريع على الأزرار */
+    body {
+      font-family: 'Cairo', sans-serif;
+      overscroll-behavior-y: contain; /* يمنع السحب المطاطي للصفحة */
+    }
     button, input, div {
       touch-action: manipulation;
       user-select: none;
       -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
-    /* تحسين شكل شريط التمرير لسجل الجولات */
     ::-webkit-scrollbar {
       width: 4px;
     }
@@ -93,231 +101,228 @@
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: rgba(156, 163, 175, 0.3);
+      background: rgba(156, 163, 175, 0.4);
       border-radius: 999px;
     }
-    /* أنيميشن للاحتفال بالفوز */
     @keyframes float {
-      0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
     }
     .confetti {
       position: absolute;
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       background-color: #f59e0b;
-      border-radius: 50%;
-      animation: float 4s linear infinite;
+      border-radius: 2px;
+      top: -20px;
+      animation: float 3s linear forwards;
+      z-index: 100;
     }
   </style>
 </head>
-<body class="font-cairo bg-[#0b0f19] text-white transition-colors duration-300 h-screen flex flex-col overflow-hidden dark:bg-[#0b0f19] light:bg-slate-50">
+<body class="bg-slate-50 dark:bg-brand-darker text-slate-800 dark:text-white transition-colors duration-300 h-[100dvh] flex flex-col overflow-hidden">
 
-  <!-- الشاشة الرئيسية للتطبيق -->
-  <div class="flex-1 flex flex-col max-w-md mx-auto w-full h-full relative px-4 py-3 justify-between">
+  <div class="flex-1 flex flex-col max-w-md mx-auto w-full h-full relative px-3 py-2 sm:px-4 sm:py-3 justify-between">
     
-    <!-- الهيدر العلوي: يحتوي على العنوان وأزرار الإعدادات والتحويل للمظهر -->
-    <header class="flex justify-between items-center py-2 shrink-0">
+    <!-- Header -->
+    <header class="flex justify-between items-center py-1 sm:py-2 shrink-0">
       <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center text-black font-extrabold shadow-lg shadow-amber-500/20">🀽</div>
-        <h1 class="text-xl font-bold tracking-wide dark:text-white text-slate-800" id="headerTitle">مسجل الدومينوز</h1>
+        <h1 class="text-xl sm:text-2xl font-black tracking-wide text-slate-800 dark:text-white" id="headerTitle">سجل الدومينوز</h1>
       </div>
-      <div class="flex items-center gap-3">
-        <!-- زر المظهر النهاري/الليل -->
-        <button id="themeToggle" class="p-2.5 rounded-xl bg-slate-800/60 dark:bg-slate-800/60 dark:text-amber-400 text-slate-600 bg-slate-200/80 hover:scale-105 active:scale-95 transition-all shadow-md" aria-label="تغيير المظهر">
-          <!-- أيقونة الشمس لنمط النهار -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button id="themeToggle" class="p-2 sm:p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-amber-400 hover:scale-105 active:scale-95 transition-all shadow-sm" aria-label="تغيير المظهر">
           <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path></svg>
-          <!-- أيقونة القمر لنمط الليل -->
           <svg id="moonIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
         </button>
-        <!-- زر الإعدادات -->
-        <button id="settingsBtn" class="p-2.5 rounded-xl bg-slate-800/60 dark:bg-slate-800/60 dark:text-white text-slate-800 bg-slate-200/80 hover:scale-105 active:scale-95 transition-all shadow-md">
+        <button id="settingsBtn" class="p-2 sm:p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-white hover:scale-105 active:scale-95 transition-all shadow-sm">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
         </button>
       </div>
     </header>
 
-    <!-- لوحة عرض النقاط الكلية (Scoreboard) -->
-    <section class="bg-slate-900/80 dark:bg-slate-900/80 bg-white border border-slate-800/40 dark:border-slate-800/40 light:border-slate-200 rounded-3xl p-5 shadow-2xl flex flex-col justify-center min-h-[140px] shrink-0 transition-all duration-300">
+    <!-- Scoreboard -->
+    <section class="bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-700 rounded-3xl p-4 sm:p-5 shadow-lg flex flex-col justify-center shrink-0 transition-all duration-300">
       
-      <!-- الأهداف والأنماط النشطة -->
-      <div class="flex justify-between items-center mb-3 text-xs font-semibold dark:text-slate-400 text-slate-500 border-b border-slate-800/30 dark:border-slate-800/30 pb-2">
-        <span id="activeModeBadge" class="px-2 py-0.5 rounded-full bg-slate-800 dark:bg-slate-800 light:bg-slate-100 dark:text-amber-400 text-slate-700">تحميل...</span>
-        <span id="activeTargetBadge" class="px-2 py-0.5 rounded-full bg-slate-800 dark:bg-slate-800 light:bg-slate-100 dark:text-amber-400 text-slate-700">الهدف: -</span>
+      <div class="flex justify-between items-center mb-3 text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 border-b border-slate-100 dark:border-slate-700 pb-2">
+        <span id="activeModeBadge" class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-400">فردي (1v1)</span>
+        <span id="activeTargetBadge" class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-400">الهدف: 151</span>
       </div>
 
-      <!-- شبكة عرض نقاط الفرق حسب النمط -->
-      <div id="scoresGrid" class="grid grid-cols-2 gap-4 divide-x divide-x-reverse divide-slate-800/40 dark:divide-slate-800/40 light:divide-slate-200">
-        <!-- يتم توليد عناصر النقاط ديناميكياً لتلائم 1v1، 2v2، 1v1v1 -->
+      <div id="scoresGrid" class="grid grid-cols-2 gap-4 divide-x divide-x-reverse divide-slate-200 dark:divide-slate-700">
+        <!-- الديناميكية تتم هنا -->
       </div>
 
-      <!-- أزرار التحكم السريع: تراجع ولعبة جديدة -->
-      <div class="grid grid-cols-2 gap-3 mt-5">
-        <button id="undoBtn" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-800/50 dark:bg-slate-800/50 hover:bg-slate-800 dark:hover:bg-slate-800 light:bg-slate-100 light:hover:bg-slate-200 text-sm font-semibold dark:text-white text-slate-800 transition-all active:scale-95 border border-slate-700/20">
+      <div class="grid grid-cols-2 gap-3 mt-4">
+        <button id="undoBtn" class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/60 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-bold transition-all active:scale-95">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
-          تراجع
+          تراجع عن السجل
         </button>
-        <button id="newGameBtn" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-rose-950/20 hover:bg-rose-950/40 dark:bg-rose-950/20 dark:hover:bg-rose-950/40 light:bg-rose-50 light:hover:bg-rose-100 text-rose-500 text-sm font-semibold transition-all active:scale-95 border border-rose-500/10">
+        <button id="newGameBtn" class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/60 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-bold transition-all active:scale-95">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 19.102M11 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-          لعبة جديدة
+          تصفير اللعبة
         </button>
       </div>
     </section>
 
-    <!-- منطقة الإدخال الحالية والمفتاح المركزي للتسجيل "سجل" -->
-    <section class="flex items-center justify-between gap-2 py-3 shrink-0">
+    <!-- Inputs & Submit Button -->
+    <section class="flex items-center justify-between gap-3 py-2 shrink-0">
       <div id="inputsContainer" class="flex-1 flex justify-around items-center gap-2">
-        <!-- حقول الإدخال تضاف ديناميكياً هنا -->
+        <!-- Inputs injected via JS -->
       </div>
       
-      <!-- زر سجل في المنتصف بتصميم دائري متوهج ومميز كالمثال -->
-      <button id="submitBtn" class="w-16 h-16 rounded-full bg-white text-black font-extrabold flex items-center justify-center text-base shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:scale-105 active:scale-95 transition-all shrink-0">
+      <button id="submitBtn" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-slate-800 text-white dark:bg-white dark:text-black font-extrabold flex items-center justify-center text-lg shadow-[0_0_15px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:scale-105 active:scale-95 transition-all shrink-0">
         سجل
       </button>
     </section>
 
-    <!-- سجل تفاصيل جولات اللعبة (Scrollable Log) -->
-    <section class="flex-1 min-h-[100px] overflow-y-auto bg-slate-950/40 dark:bg-slate-950/40 light:bg-slate-100/50 rounded-2xl p-3 border border-slate-900 dark:border-slate-900 light:border-slate-200 shrink flex flex-col">
-      <h3 class="text-xs font-bold text-slate-500 mb-2 border-b border-slate-900 pb-1.5 dark:text-slate-400">سجل الجولات</h3>
-      <div id="historyLog" class="flex-1 overflow-y-auto space-y-1.5 pr-1 text-sm">
-        <!-- تُضاف جولات اللعبة ديناميكياً هنا -->
-        <div class="text-center text-xs text-slate-500 py-4" id="emptyHistoryMsg">لا توجد نقاط مسجلة بعد. ابدأ اللعب!</div>
+    <!-- History Log -->
+    <section class="flex-1 min-h-[80px] overflow-hidden flex flex-col">
+      <div class="h-full bg-white dark:bg-slate-900 rounded-2xl p-2 sm:p-3 border border-slate-200 dark:border-slate-800 flex flex-col shadow-sm">
+        <h3 class="text-[11px] font-bold text-slate-400 mb-1.5 border-b border-slate-100 dark:border-slate-800 pb-1 text-center">سجل الجولات الحالية</h3>
+        <div id="historyLog" class="flex-1 overflow-y-auto space-y-1.5 pr-1 text-xs sm:text-sm">
+          <div class="text-center text-xs text-slate-400 py-2" id="emptyHistoryMsg">ابدأ بإدخال النقاط وتسجيلها</div>
+        </div>
       </div>
     </section>
 
-    <!-- لوحة المفاتيح واللمس السريعة (Custom Touch Pad) لسرعة الإدخال على الموبايل -->
-    <section class="mt-3 bg-slate-900/60 dark:bg-slate-900/60 light:bg-slate-100 rounded-3xl p-3 shadow-lg shrink-0 border border-slate-800/30 dark:border-slate-800/30 light:border-slate-200">
-      <!-- أزرار الإضافة السريعة لمضاعفات الدومينوز -->
-      <div class="grid grid-cols-4 gap-2 mb-2.5">
-        <button onclick="addQuickScore(5)" class="py-2 rounded-xl bg-amber-500/10 dark:bg-amber-500/10 light:bg-amber-100 text-amber-500 font-bold text-xs hover:bg-amber-500/20 transition-all">+5</button>
-        <button onclick="addQuickScore(10)" class="py-2 rounded-xl bg-amber-500/10 dark:bg-amber-500/10 light:bg-amber-100 text-amber-500 font-bold text-xs hover:bg-amber-500/20 transition-all">+10</button>
-        <button onclick="addQuickScore(20)" class="py-2 rounded-xl bg-amber-500/10 dark:bg-amber-500/10 light:bg-amber-100 text-amber-500 font-bold text-xs hover:bg-amber-500/20 transition-all">+20</button>
-        <button onclick="addQuickScore(50)" class="py-2 rounded-xl bg-amber-500/10 dark:bg-amber-500/10 light:bg-amber-100 text-amber-500 font-bold text-xs hover:bg-amber-500/20 transition-all">+50</button>
+    <!-- Touch Numpad -->
+    <section class="mt-2 shrink-0">
+      <!-- Quick Adds -->
+      <div class="grid grid-cols-4 gap-2 mb-2">
+        <button onclick="addQuickScore(5)" class="py-1.5 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-sm active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+5</button>
+        <button onclick="addQuickScore(10)" class="py-1.5 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-sm active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+10</button>
+        <button onclick="addQuickScore(20)" class="py-1.5 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-sm active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+20</button>
+        <button onclick="addQuickScore(50)" class="py-1.5 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-sm active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+50</button>
       </div>
       
-      <!-- الكيبورد الرقمي -->
-      <div class="grid grid-cols-3 gap-2">
-        <button onclick="pressKey('1')" class="py-3 rounded-2xl bg-slate-800 dark:bg-slate-800 light:bg-white dark:text-white text-slate-800 font-bold text-lg shadow-sm hover:scale-[1.02] active:bg-slate-700 dark:active:bg-slate-700 light:active:bg-slate-200 transition-all">1</button>
-        <button onclick="pressKey('2')" class="py-3 rounded-2xl bg-slate-800 dark:bg-slate-800 light:bg-white dark:text-white text-slate-800 font-bold text-lg shadow-sm hover:scale-[1.02] active:bg-slate-700 dark:active:bg-slate-700 light:active:bg-slate-200 transition-all">2</button>
-        <button onclick="pressKey('3')" class="py-3 rounded-2xl bg-slate-800 dark:bg-slate-800 light:bg-white dark:text-white text-slate-800 font-bold text-lg shadow-sm hover:scale-[1.02] active:bg-slate-700 dark:active:bg-slate-700 light:active:bg-slate-200 transition-all">3</button>
-        
-        <button onclick="pressKey('4')" class="py-3 rounded-2xl bg-slate-800 dark:bg-slate-800 light:bg-white dark:text-white text-slate-800 font-bold text-lg shadow-sm hover:scale-[1.02] active:bg-slate-700 dark:active:bg-slate-700 light:active:bg-slate-200 transition-all">4</button>
-        <button onclick="pressKey('5')" class="py-3 rounded-2xl bg-slate-800 dark:bg-slate-800 light:bg-white dark:text-white text-slate-800 font-bold text-lg shadow-sm hover:scale-[1.02] active:bg-slate-700 dark:active:bg-slate-700 light:active:bg-slate-200 transition-all">5</button>
-        <button onclick="pressKey('6')" class="py-3 rounded-2xl bg-slate-800 dark:bg-slate-800 light:bg-white dark:text-white text-slate-800 font-bold text-lg shadow-sm hover:scale-[1.02] active:bg-slate-700 dark:active:bg-slate-700 light:active:bg-slate-200 transition-all">6</button>
-        
-        <button onclick="pressKey('7')" class="py-3 rounded-2xl bg-slate-800 dark:bg-slate-800 light:bg-white dark:text-white text-slate-800 font-bold text-lg shadow-sm hover:scale-[1.02] active:bg-slate-700 dark:active:bg-slate-700 light:active:bg-slate-200 transition-all">7</button>
-        <button onclick="pressKey('8')" class="py-3 rounded-2xl bg-slate-800 dark:bg-slate-800 light:bg-white dark:text-white text-slate-800 font-bold text-lg shadow-sm hover:scale-[1.02] active:bg-slate-700 dark:active:bg-slate-700 light:active:bg-slate-200 transition-all">8</button>
-        <button onclick="pressKey('9')" class="py-3 rounded-2xl bg-slate-800 dark:bg-slate-800 light:bg-white dark:text-white text-slate-800 font-bold text-lg shadow-sm hover:scale-[1.02] active:bg-slate-700 dark:active:bg-slate-700 light:active:bg-slate-200 transition-all">9</button>
-        
-        <button onclick="pressKey('C')" class="py-3 rounded-2xl bg-rose-500/10 text-rose-500 font-bold text-base shadow-sm active:bg-rose-500/20 transition-all">تصفير</button>
-        <button onclick="pressKey('0')" class="py-3 rounded-2xl bg-slate-800 dark:bg-slate-800 light:bg-white dark:text-white text-slate-800 font-bold text-lg shadow-sm hover:scale-[1.02] active:bg-slate-700 dark:active:bg-slate-700 light:active:bg-slate-200 transition-all">0</button>
-        <button onclick="pressKey('Backspace')" class="py-3 rounded-2xl bg-slate-800 dark:bg-slate-800 light:bg-white dark:text-white text-slate-800 font-bold text-lg shadow-sm flex items-center justify-center active:bg-slate-700 dark:active:bg-slate-700 light:active:bg-slate-200 transition-all">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414A2 2 0 0010.828 19h6.344a2 2 0 002-2V7a2 2 0 00-2-2h-6.344a2 2 0 00-1.414.586L3 12z"></path></svg>
-        </button>
+      <!-- Keypad -->
+      <div class="bg-white dark:bg-brand-card rounded-2xl p-2 sm:p-3 shadow-md border border-slate-200 dark:border-slate-800">
+        <div class="grid grid-cols-3 gap-1.5 sm:gap-2">
+          <button onclick="pressKey('1')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">1</button>
+          <button onclick="pressKey('2')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">2</button>
+          <button onclick="pressKey('3')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">3</button>
+          
+          <button onclick="pressKey('4')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">4</button>
+          <button onclick="pressKey('5')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">5</button>
+          <button onclick="pressKey('6')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">6</button>
+          
+          <button onclick="pressKey('7')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">7</button>
+          <button onclick="pressKey('8')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">8</button>
+          <button onclick="pressKey('9')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">9</button>
+          
+          <button onclick="pressKey('C')" class="h-10 sm:h-12 rounded-xl bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-500 font-bold text-sm active:scale-95 transition-all">مسح (C)</button>
+          <button onclick="pressKey('0')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">0</button>
+          <button onclick="pressKey('Backspace')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white flex items-center justify-center active:scale-95 transition-all">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414A2 2 0 0010.828 19h6.344a2 2 0 002-2V7a2 2 0 00-2-2h-6.344a2 2 0 00-1.414.586L3 12z"></path></svg>
+          </button>
+        </div>
       </div>
     </section>
   </div>
 
-  <!-- لوحة الإعدادات الجانبية / المودال (Settings Drawer) -->
+  <!-- Settings Modal -->
   <div id="settingsModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-opacity duration-300">
-    <div class="bg-slate-900 dark:bg-slate-900 light:bg-white dark:text-white text-slate-800 rounded-t-[32px] w-full max-w-md p-6 space-y-5 shadow-2xl transform translate-y-full transition-transform duration-300 max-h-[85vh] overflow-y-auto">
-      <div class="flex justify-between items-center border-b border-slate-800 dark:border-slate-800 light:border-slate-100 pb-3">
-        <h2 class="text-lg font-bold">إعدادات اللعبة الجديدة</h2>
-        <button id="closeSettings" class="p-1 rounded-full hover:bg-slate-800 dark:hover:bg-slate-800 light:hover:bg-slate-100">
+    <div class="bg-white dark:bg-brand-darker rounded-t-[32px] w-full max-w-md p-5 sm:p-6 space-y-4 sm:space-y-5 shadow-2xl transform translate-y-full transition-transform duration-300 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-white">إعدادات اللعبة</h2>
+        <button id="closeSettings" class="p-1 rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
 
-      <!-- اختيار نمط اللعب -->
       <div class="space-y-2">
-        <label class="block text-sm font-semibold text-slate-400">نمط اللعب:</label>
+        <label class="block text-sm font-bold text-slate-600 dark:text-slate-400">نمط اللعب:</label>
         <div class="grid grid-cols-3 gap-2">
-          <button onclick="setGameMode('1v1')" id="btnMode1v1" class="py-2.5 rounded-xl border border-slate-700 text-sm font-semibold transition-all">فردي (1v1)</button>
-          <button onclick="setGameMode('2v2')" id="btnMode2v2" class="py-2.5 rounded-xl border border-slate-700 text-sm font-semibold transition-all">زوجي (2v2)</button>
-          <button onclick="setGameMode('1v1v1')" id="btnMode1v1v1" class="py-2.5 rounded-xl border border-slate-700 text-sm font-semibold transition-all">ثلاثي (1v1v1)</button>
+          <button onclick="setGameMode('1v1')" id="btnMode1v1" class="py-2.5 rounded-xl border text-sm font-bold transition-all">فردي</button>
+          <button onclick="setGameMode('2v2')" id="btnMode2v2" class="py-2.5 rounded-xl border text-sm font-bold transition-all">زوجي</button>
+          <button onclick="setGameMode('1v1v1')" id="btnMode1v1v1" class="py-2.5 rounded-xl border text-sm font-bold transition-all">ثلاثي</button>
         </div>
       </div>
 
-      <!-- اختيار النقاط المستهدفة للفوز -->
       <div class="space-y-2">
-        <label class="block text-sm font-semibold text-slate-400">النقاط المستهدفة للفوز:</label>
+        <label class="block text-sm font-bold text-slate-600 dark:text-slate-400">النقاط المستهدفة للعبة:</label>
         <div class="grid grid-cols-2 gap-3">
-          <button onclick="setTargetScore(101)" id="btnTarget101" class="py-2.5 rounded-xl border border-slate-700 text-sm font-semibold transition-all">101 نقطة</button>
-          <button onclick="setTargetScore(151)" id="btnTarget151" class="py-2.5 rounded-xl border border-slate-700 text-sm font-semibold transition-all">151 نقطة</button>
+          <button onclick="setTargetScore(101)" id="btnTarget101" class="py-2.5 rounded-xl border text-sm font-bold transition-all">101 نقطة</button>
+          <button onclick="setTargetScore(151)" id="btnTarget151" class="py-2.5 rounded-xl border text-sm font-bold transition-all">151 نقطة</button>
         </div>
-        <p class="text-[11px] text-amber-500 leading-relaxed font-medium">💡 قاعدة السكب (الكابو): عند اللعب بـ 151، يفوز اللاعب/الفريق فوراً إذا تخطى 101 نقطة ولم يحرز الخصوم أي نقاط!</p>
+        <p class="text-[11px] text-amber-600 dark:text-amber-500 leading-relaxed font-bold bg-amber-50 dark:bg-amber-500/10 p-2 rounded-lg mt-2">
+          💡 قاعدة السكب: في هدف 151، تخطي فريقك لـ 101 والخصم صفر يمنحك الفوز فوراً!
+        </p>
       </div>
 
-      <!-- تخصيص أسماء الفرق / اللاعبين -->
-      <div class="space-y-2.5">
-        <label class="block text-sm font-semibold text-slate-400">أسماء الأطراف:</label>
+      <div class="space-y-2">
+        <label class="block text-sm font-bold text-slate-600 dark:text-slate-400">أسماء الفرق/اللاعبين:</label>
         <div id="namesInputContainer" class="space-y-2">
-          <!-- تضاف حقول الإدخال للأسماء هنا ديناميكياً -->
+          <!-- Dynamically generated -->
         </div>
       </div>
 
-      <!-- زر تطبيق الحفظ وبدء لعبة جديدة -->
-      <button id="applySettingsBtn" class="w-full py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-black font-extrabold text-base shadow-lg shadow-amber-500/20 transition-all active:scale-[0.98]">
-        بدء وحفظ اللعبة الجديدة
+      <button id="applySettingsBtn" class="w-full py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-black font-extrabold text-base shadow-lg shadow-amber-500/20 transition-all active:scale-95">
+        حفظ وبدء لعبة جديدة
       </button>
     </div>
   </div>
 
-  <!-- مودال تأكيد تصفير / مسح النقاط واللعبة الجديدة -->
+  <!-- Confirm Reset Modal -->
   <div id="confirmModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 px-4">
-    <div class="bg-slate-900 dark:bg-slate-900 light:bg-white dark:text-white text-slate-800 rounded-3xl w-full max-w-xs p-5 space-y-4 shadow-2xl text-center transform scale-95 transition-transform duration-300">
-      <div class="w-12 h-12 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center mx-auto">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+    <div class="bg-white dark:bg-brand-darker rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-2xl text-center transform scale-95 transition-transform duration-300 border border-slate-200 dark:border-slate-800">
+      <div class="w-14 h-14 rounded-full bg-rose-100 dark:bg-rose-500/10 text-rose-600 dark:text-rose-500 flex items-center justify-center mx-auto">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
       </div>
       <div>
-        <h4 class="text-base font-bold">مسح الجولة الحالية؟</h4>
-        <p class="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 mt-1">هل أنت متأكد من رغبتك في تصفير جميع النقاط المسجلة والبدء من جديد؟</p>
+        <h4 class="text-lg font-black text-slate-800 dark:text-white">خيارات تصفير اللعبة</h4>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">ما الذي ترغب في مسحه للبدء من جديد؟</p>
       </div>
-      <div class="grid grid-cols-2 gap-2 pt-2">
-        <button onclick="confirmReset(true)" class="py-2.5 rounded-xl bg-rose-500 text-white text-xs font-bold transition-all active:scale-95">نعم، امسح الكل</button>
-        <button onclick="confirmReset(false)" class="py-2.5 rounded-xl bg-slate-800 dark:bg-slate-800 light:bg-slate-100 dark:text-white text-slate-800 text-xs font-bold transition-all active:scale-95">إلغاء</button>
+      <div class="flex flex-col gap-2 pt-2">
+        <button onclick="confirmReset('round')" class="w-full py-3 rounded-xl bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900 text-sm font-bold transition-all active:scale-95">
+          مسح نقاط الجولة فقط (الاحتفاظ بالانتصارات)
+        </button>
+        <button onclick="confirmReset('all')" class="w-full py-3 rounded-xl bg-rose-50 text-rose-600 dark:bg-rose-500/10 dark:text-rose-500 text-sm font-bold transition-all active:scale-95 border border-rose-200 dark:border-rose-900/50">
+          مسح كل شيء (الجولة والانتصارات)
+        </button>
+        <button onclick="confirmReset('cancel')" class="w-full py-3 rounded-xl text-slate-600 dark:text-slate-400 text-sm font-bold transition-all active:scale-95 hover:bg-slate-100 dark:hover:bg-slate-800">
+          إلغاء
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- مودال إعلان الفائز والاحتفال (Winner Modal) -->
+  <!-- Winner Modal -->
   <div id="winnerModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 px-4 overflow-hidden">
     <div id="confettiContainer" class="absolute inset-0 pointer-events-none"></div>
-    <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-amber-500/30 rounded-3xl w-full max-w-sm p-6 text-center shadow-2xl relative z-10 transform scale-95 transition-transform duration-300 space-y-5">
-      <div class="w-20 h-20 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto border border-amber-500/30">
-        <span class="text-4xl">👑</span>
+    <div class="bg-white dark:bg-brand-darker border-4 border-amber-400 rounded-3xl w-full max-w-sm p-6 text-center shadow-[0_0_50px_rgba(245,158,11,0.3)] relative z-10 transform scale-95 transition-transform duration-300 space-y-4">
+      <div class="w-24 h-24 rounded-full bg-amber-50 dark:bg-amber-500/20 flex items-center justify-center mx-auto border-4 border-amber-400 shadow-inner">
+        <span class="text-5xl">🏆</span>
       </div>
-      <div class="space-y-1">
-        <h2 class="text-amber-400 font-extrabold text-2xl animate-pulse">مبـارك الفـوز!</h2>
-        <p id="winnerAnnounceText" class="text-lg font-bold text-white pt-1">الفائز هو</p>
-        <p id="winningReason" class="text-xs text-amber-500/80 font-semibold"></p>
+      <div>
+        <h2 class="text-amber-500 font-black text-3xl mb-1">انتهت اللعبة!</h2>
+        <p class="text-slate-500 dark:text-slate-400 text-sm font-bold" id="winningReason">الوصول للهدف</p>
       </div>
-      <!-- جدول ملخص سريع للنقاط النهائية -->
-      <div id="finalScoreSummary" class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 space-y-2">
-        <!-- تملأ برمجياً -->
+      
+      <div class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-800">
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">الفريق الفائز</p>
+        <p id="winnerAnnounceText" class="text-2xl font-black text-slate-800 dark:text-white"></p>
       </div>
-      <button onclick="closeWinnerModalAndReset()" class="w-full py-3 rounded-2xl bg-amber-500 hover:bg-amber-600 text-black font-extrabold text-sm transition-all active:scale-95 shadow-lg shadow-amber-500/20">
-        لعبة جديدة
+
+      <button onclick="closeWinnerModalAndReset()" class="w-full py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-black font-extrabold text-base transition-all active:scale-95 shadow-lg shadow-amber-500/20">
+        بدء جولة جديدة
       </button>
     </div>
   </div>
 
-  <!-- رسالة تنبيه منبثقة مخصصة بديلة لـ alert -->
-  <div id="toastMessage" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-rose-600 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-lg transition-all duration-300 opacity-0 pointer-events-none z-50 flex items-center gap-2">
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+  <!-- Toast -->
+  <div id="toastMessage" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white dark:bg-white dark:text-slate-900 text-xs sm:text-sm font-bold px-5 py-3 rounded-full shadow-2xl transition-all duration-300 opacity-0 pointer-events-none z-[60] flex items-center gap-2">
     <span id="toastText"></span>
   </div>
 
-  <!-- منطق اللعبة البرمجي بالكامل -->
   <script>
-    // تهيئة حالة التطبيق الافتراضية
     let state = {
       theme: 'dark',
-      mode: '2v2', // الأنماط المتاحة: 1v1, 2v2, 1v1v1
-      target: 151, // الأهداف المتاحة: 101, 151
+      mode: '2v2',
+      target: 151,
       names: {
-        teamA: 'فريقنا',
-        teamB: 'فريقهم',
+        teamA: 'لنا',
+        teamB: 'لهم',
         teamC: 'اللاعب ٣'
       },
       scores: {
@@ -325,18 +330,21 @@
         teamB: 0,
         teamC: 0
       },
-      history: [], // جولات اللعب المخزنة
-      activeInput: 'teamA' // الحقل النشط حالياً للإدخال بلوحة المفاتيح المخصصة
+      gamesWon: {
+        teamA: 0,
+        teamB: 0,
+        teamC: 0
+      },
+      history: [],
+      activeInput: 'teamA'
     };
 
-    // حقول الإدخال الحالية المؤقتة للجولة
     let currentInputs = {
       teamA: '',
       teamB: '',
       teamC: ''
     };
 
-    // دالة بدء التشغيل وتثبيت الإعدادات المخزنة
     window.addEventListener('load', () => {
       loadFromLocalStorage();
       applyTheme();
@@ -347,28 +355,25 @@
       registerServiceWorker();
     });
 
-    // تحميل البيانات من الـ Local Storage
     function loadFromLocalStorage() {
-      const savedState = localStorage.getItem('dominoes_state');
+      const savedState = localStorage.getItem('dominoes_v2_state');
       if (savedState) {
         try {
           const parsed = JSON.parse(savedState);
           state = { ...state, ...parsed };
+          // Ensure gamesWon exists if loaded from old version
+          if(!state.gamesWon) state.gamesWon = { teamA: 0, teamB: 0, teamC: 0 };
         } catch (e) {
-          console.error("فشل قراءة البيانات المخزنة:", e);
+          console.error("Failed to load local storage:", e);
         }
       }
-      
-      // تعيين الحقل النشط الافتراضي الأول بناء على النمط الفعلي للعب
       state.activeInput = 'teamA';
     }
 
-    // حفظ البيانات الحالية في الـ Local Storage
     function saveToLocalStorage() {
-      localStorage.setItem('dominoes_state', JSON.stringify(state));
+      localStorage.setItem('dominoes_v2_state', JSON.stringify(state));
     }
 
-    // تفعيل وإعداد المظهر (ليلي / نهاري)
     function applyTheme() {
       const html = document.documentElement;
       const sunIcon = document.getElementById('sunIcon');
@@ -376,86 +381,69 @@
       
       if (state.theme === 'light') {
         html.classList.remove('dark');
-        html.classList.add('light');
         sunIcon.classList.remove('hidden');
         moonIcon.classList.add('hidden');
       } else {
-        html.classList.remove('light');
         html.classList.add('dark');
         moonIcon.classList.remove('hidden');
         sunIcon.classList.add('hidden');
       }
     }
 
-    // إعداد مستمعي الأحداث للعناصر التفاعلية
     function setupEventListeners() {
-      // زر تغيير المظهر
       document.getElementById('themeToggle').addEventListener('click', () => {
         state.theme = state.theme === 'dark' ? 'light' : 'dark';
         applyTheme();
         saveToLocalStorage();
       });
 
-      // زر فتح الإعدادات
       document.getElementById('settingsBtn').addEventListener('click', openSettings);
       document.getElementById('closeSettings').addEventListener('click', closeSettings);
-
-      // زر إغلاق الإعدادات وتطبيقها
       document.getElementById('applySettingsBtn').addEventListener('click', applySettings);
-
-      // زر سجل (حفظ الدور)
       document.getElementById('submitBtn').addEventListener('click', submitRound);
-
-      // زر تراجع عن الجولة الأخيرة
       document.getElementById('undoBtn').addEventListener('click', undoLastRound);
-
-      // زر بدء لعبة جديدة مصفّرة
-      document.getElementById('newGameBtn').addEventListener('click', () => {
-        showModal('confirmModal');
-      });
+      document.getElementById('newGameBtn').addEventListener('click', () => showModal('confirmModal'));
     }
 
-    // رندرة وتحديث لوحة عرض النقاط الإجمالية
     function renderScoreboard() {
       const grid = document.getElementById('scoresGrid');
       grid.innerHTML = '';
 
-      // تحديد الشارات النشطة بالهيدر واللوحة
       const modeText = state.mode === '1v1' ? 'فردي (1v1)' : state.mode === '2v2' ? 'زوجي (2v2)' : 'ثلاثي (1v1v1)';
       document.getElementById('activeModeBadge').textContent = modeText;
       document.getElementById('activeTargetBadge').textContent = `الهدف: ${state.target}`;
 
-      // توليد خلايا عرض النقاط حسب نمط اللعب
       const parties = getActiveParties();
       parties.forEach(party => {
-        const name = state.names[party] || 'غير معروف';
+        const name = state.names[party] || 'فريق';
         const score = state.scores[party] || 0;
-        
-        // حساب النسبة المئوية للتقدم نحو الهدف
+        const wins = state.gamesWon[party] || 0;
         const progressPercentage = Math.min((score / state.target) * 100, 100);
 
         const card = document.createElement('div');
         card.className = "flex flex-col items-center justify-center p-2 text-center relative transition-all duration-300";
         card.innerHTML = `
-          <span class="text-xs font-semibold dark:text-slate-400 text-slate-500 mb-1 max-w-[120px] truncate">${name}</span>
-          <span class="text-4xl font-black dark:text-white text-slate-800 tracking-tight transition-all duration-300">${score}</span>
-          <!-- بار التقدم البصري تحت السكور -->
-          <div class="w-full bg-slate-800/40 dark:bg-slate-800/40 light:bg-slate-200 h-1 rounded-full mt-3 overflow-hidden">
-            <div class="bg-amber-500 h-full rounded-full transition-all duration-500" style="width: ${progressPercentage}%"></div>
+          <div class="flex flex-col items-center mb-1">
+            <span class="text-sm font-black text-slate-600 dark:text-slate-300 max-w-[120px] truncate">${name}</span>
+            <div class="flex items-center gap-1 text-[10px] text-amber-600 dark:text-amber-500 bg-amber-50 dark:bg-amber-500/10 px-2 py-0.5 rounded-full mt-0.5 border border-amber-200 dark:border-amber-500/20">
+              <span>🏆</span> <span class="font-bold">${wins}</span>
+            </div>
+          </div>
+          <span class="text-5xl font-black text-slate-800 dark:text-white tracking-tighter mt-1 transition-all duration-300">${score}</span>
+          <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden shadow-inner">
+            <div class="bg-amber-400 h-full rounded-full transition-all duration-500" style="width: ${progressPercentage}%"></div>
           </div>
         `;
         grid.appendChild(card);
       });
 
-      // ضبط كولوم الشبكة بناءً على نمط اللعب (ثلاثة للثلاثي، واثنان للبقية)
       if (state.mode === '1v1v1') {
-        grid.className = "grid grid-cols-3 gap-2 divide-x divide-x-reverse divide-slate-800/40 dark:divide-slate-800/40 light:divide-slate-200";
+        grid.className = "grid grid-cols-3 gap-2 divide-x divide-x-reverse divide-slate-200 dark:divide-slate-700";
       } else {
-        grid.className = "grid grid-cols-2 gap-4 divide-x divide-x-reverse divide-slate-800/40 dark:divide-slate-800/40 light:divide-slate-200";
+        grid.className = "grid grid-cols-2 gap-4 divide-x divide-x-reverse divide-slate-200 dark:divide-slate-700";
       }
     }
 
-    // رندرة خلايا إدخال الدور النشط
     function renderInputs() {
       const container = document.getElementById('inputsContainer');
       container.innerHTML = '';
@@ -469,20 +457,19 @@
         const inputWrapper = document.createElement('div');
         inputWrapper.className = `flex-1 flex flex-col items-center transition-all duration-200`;
         inputWrapper.innerHTML = `
-          <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1 max-w-[80px] truncate">${name}</span>
-          <div onclick="setActiveInput('${party}')" class="w-full py-3 px-2 rounded-2xl border text-center font-bold text-lg cursor-pointer transition-all ${
+          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 max-w-[80px] truncate">${name}</span>
+          <div onclick="setActiveInput('${party}')" class="w-full h-12 sm:h-14 flex items-center justify-center rounded-2xl border-2 text-center font-black text-xl cursor-pointer transition-all ${
             isActive 
-            ? 'bg-amber-500/10 dark:bg-amber-500/10 border-amber-500 text-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.25)] scale-105' 
-            : 'bg-slate-900/40 dark:bg-slate-900/40 light:bg-slate-100 border-slate-800/60 dark:border-slate-800/60 light:border-slate-200 dark:text-slate-300 text-slate-700'
+            ? 'bg-amber-50 dark:bg-amber-500/10 border-amber-400 text-amber-600 dark:text-amber-400 scale-105 shadow-md' 
+            : 'bg-white dark:bg-brand-card border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
           }">
-            ${val || '<span class="text-slate-600/50 dark:text-slate-600/50 light:text-slate-300 font-normal">0</span>'}
+            ${val || '<span class="text-slate-300 dark:text-slate-600 font-normal">0</span>'}
           </div>
         `;
         container.appendChild(inputWrapper);
       });
     }
 
-    // رندرة جولات اللعب السابقة في جدول السجل
     function renderHistory() {
       const log = document.getElementById('historyLog');
       const emptyMsg = document.getElementById('emptyHistoryMsg');
@@ -491,6 +478,7 @@
 
       if (state.history.length === 0) {
         emptyMsg.classList.remove('hidden');
+        log.appendChild(emptyMsg);
         return;
       } else {
         emptyMsg.classList.add('hidden');
@@ -499,52 +487,44 @@
       state.history.forEach((round, index) => {
         const parties = getActiveParties();
         const roundRow = document.createElement('div');
-        roundRow.className = "flex items-center justify-between py-2 px-3.5 bg-slate-900/30 dark:bg-slate-900/30 light:bg-white rounded-xl border border-slate-900/50 dark:border-slate-900/50 light:border-slate-100/80 hover:bg-slate-900/50 transition-all text-xs";
+        roundRow.className = "flex items-center justify-between py-2 px-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 text-xs sm:text-sm";
         
         let roundValuesHtml = '';
-        parties.forEach((party, pIdx) => {
+        parties.forEach((party) => {
           const val = round[party] || 0;
           roundValuesHtml += `
-            <div class="flex items-center gap-1.5 px-2">
-              <span class="text-slate-500 dark:text-slate-400 font-medium">${state.names[party]}:</span>
-              <span class="font-extrabold ${val > 0 ? 'text-amber-500' : 'text-slate-500'}">${val}</span>
+            <div class="flex items-center gap-1.5 px-2 w-full justify-center">
+              <span class="text-slate-400 dark:text-slate-500 font-bold">${state.names[party].substring(0,6)}:</span>
+              <span class="font-black ${val > 0 ? 'text-amber-500' : 'text-slate-600 dark:text-slate-400'}">${val}</span>
             </div>
           `;
         });
 
         roundRow.innerHTML = `
-          <div class="flex items-center gap-2">
-            <span class="w-5 h-5 rounded-md bg-slate-800 dark:bg-slate-800 light:bg-slate-100 text-[10px] font-bold text-slate-400 dark:text-slate-400 flex items-center justify-center">#${index + 1}</span>
+          <div class="flex items-center justify-center w-6 shrink-0">
+            <span class="text-[10px] font-black text-slate-400 dark:text-slate-500">#${index + 1}</span>
           </div>
-          <div class="flex-1 flex justify-around divide-x divide-x-reverse divide-slate-800/30 dark:divide-slate-800/30 light:divide-slate-100">
+          <div class="flex-1 flex justify-around divide-x divide-x-reverse divide-slate-200 dark:divide-slate-700">
             ${roundValuesHtml}
           </div>
         `;
         log.appendChild(roundRow);
       });
 
-      // النزول لآخر السجل لعرض الجولة الأخيرة دائماً
       setTimeout(() => {
         log.scrollTop = log.scrollHeight;
       }, 50);
     }
 
-    // تحديد الأطراف النشطة بناءً على نمط اللعب
     function getActiveParties() {
-      if (state.mode === '1v1' || state.mode === '2v2') {
-        return ['teamA', 'teamB'];
-      } else {
-        return ['teamA', 'teamB', 'teamC'];
-      }
+      return (state.mode === '1v1v1') ? ['teamA', 'teamB', 'teamC'] : ['teamA', 'teamB'];
     }
 
-    // تغيير الطرف الفعّال المجهّز للكتابة بلوحة اللمس
     function setActiveInput(party) {
       state.activeInput = party;
       renderInputs();
     }
 
-    // استقبال مدخلات لوحة اللمس المخصصة وتطبيقها
     function pressKey(key) {
       const active = state.activeInput;
       if (!active) return;
@@ -554,9 +534,7 @@
       } else if (key === 'C') {
         currentInputs[active] = '';
       } else {
-        // عدم السماح بأكثر من 3 خانات للرقم الواحد
         if (currentInputs[active].length < 3) {
-          // منع الأصفار المتكررة في البداية
           if (currentInputs[active] === '0' && key === '0') return;
           if (currentInputs[active] === '0') currentInputs[active] = '';
           currentInputs[active] += key;
@@ -565,22 +543,16 @@
       renderInputs();
     }
 
-    // ميزة الإضافة السريعة (+5, +10, ...) للطرف النشط
     function addQuickScore(amount) {
       const active = state.activeInput;
       if (!active) return;
-
       const currentVal = parseInt(currentInputs[active]) || 0;
-      const newVal = Math.max(0, Math.min(999, currentVal + amount));
-      currentInputs[active] = newVal.toString();
+      currentInputs[active] = Math.min(999, currentVal + amount).toString();
       renderInputs();
     }
 
-    // التحقق من صحة الجولة وتسجيل النقاط
     function submitRound() {
       const parties = getActiveParties();
-      
-      // تجهيز كائن جولة جديدة فارغة
       const roundData = {};
       let hasValue = false;
 
@@ -590,55 +562,38 @@
         if (val > 0) hasValue = true;
       });
 
-      // التحقق من إدخال قيمة واحدة على الأقل قبل التسجيل
       if (!hasValue) {
-        showToast("يرجى إدخال النقاط لأحد الأطراف قبل التسجيل!");
+        showToast("يرجى إدخال النقاط لأحد الأطراف على الأقل!");
         return;
       }
 
-      // إضافة النقاط للمجموع الكلي
       parties.forEach(party => {
         state.scores[party] = (state.scores[party] || 0) + roundData[party];
       });
 
-      // دفع الجولة إلى السجل وتصفير المدخلات المؤقتة
       state.history.push(roundData);
       clearInputs();
-
-      // حفظ البيانات محلياً
       saveToLocalStorage();
-
-      // تحديث الواجهة
+      
       renderScoreboard();
       renderInputs();
       renderHistory();
 
-      // فحص إذا كان هناك فائز باللعبة بناءً على القوانين المحددة
       checkGameWinner();
     }
 
-    // تصفير المدخلات الحالية استعداداً لجولة جديدة
     function clearInputs() {
-      currentInputs = {
-        teamA: '',
-        teamB: '',
-        teamC: ''
-      };
-      // إعادة التوجيه الافتراضي للتركيز على الطرف الأول
+      currentInputs = { teamA: '', teamB: '', teamC: '' };
       state.activeInput = 'teamA';
     }
 
-    // التراجع عن الجولة الأخيرة
     function undoLastRound() {
       if (state.history.length === 0) {
         showToast("لا توجد جولات للتراجع عنها!");
         return;
       }
-
       const lastRound = state.history.pop();
-      const parties = getActiveParties();
-
-      parties.forEach(party => {
+      getActiveParties().forEach(party => {
         state.scores[party] = Math.max(0, (state.scores[party] || 0) - (lastRound[party] || 0));
       });
 
@@ -649,99 +604,96 @@
       showToast("تم التراجع عن الجولة الأخيرة بنجاح!");
     }
 
-    // ميكانيكية التحقق من الفائز باللعبة
     function checkGameWinner() {
       const parties = getActiveParties();
       const target = state.target;
 
-      // 1. فحص قاعدة السكب (كابو/كبول): عند اللعب لـ 151
+      // Rule 1: Skab Rule (If target is 151, and one exceeds/reaches 101 while others are 0)
       if (target === 151) {
         for (let party of parties) {
-          const mainScore = state.scores[party];
-          if (mainScore > 101) {
-            // التحقق من أن جميع الأخصام لازالوا عند الصفر تماماً
-            const otherPartiesAreZero = parties.every(other => other === party || (state.scores[other] === 0));
-            if (otherPartiesAreZero) {
-              triggerWinner(party, "الفوز السريع بقاعدة السكب (تخطى 101 والخصوم 0)!");
+          if (state.scores[party] >= 101) {
+            // Check if all OTHER parties are strictly 0
+            const othersAreZero = parties.every(other => other === party || state.scores[other] === 0);
+            if (othersAreZero) {
+              triggerWinner(party, "الفوز بقاعدة السكب (تخطي 101 والخصوم صفر)!");
               return;
             }
           }
         }
       }
 
-      // 2. فحص الفوز التقليدي: بلوغ أو تخطي النقاط المستهدفة
-      const exceededTarget = parties.filter(p => state.scores[p] >= target);
-      if (exceededTarget.length > 0) {
-        // العثور على صاحب النقاط الأعلى
-        const maxScore = Math.max(...parties.map(p => state.scores[p]));
-        const leaders = parties.filter(p => state.scores[p] === maxScore);
-
-        // إذا كان هناك قائد متفرد وصاحب أعلى نقاط، يفوز باللعبة
-        if (leaders.length === 1) {
-          triggerWinner(leaders[0], `الوصول وتخطي الهدف المحدد بنقاط (${maxScore})!`);
+      // Rule 2: Normal Target Rule
+      for (let party of parties) {
+        if (state.scores[party] >= target) {
+          const maxScore = Math.max(...parties.map(p => state.scores[p]));
+          const leaders = parties.filter(p => state.scores[p] === maxScore);
+          
+          if (leaders.length === 1 && leaders[0] === party) {
+            triggerWinner(party, `تخطي الهدف المطلوب (${maxScore} نقطة)`);
+            return;
+          } else if (leaders.length > 1) {
+            showToast("تعادل في النقاط! استمروا باللعب لكسر التعادل.");
+            return;
+          }
         }
-        // في حال التعادل بالنقاط المستهدفة يستمر اللعب لحين فك الارتباط تلقائياً
       }
     }
 
-    // معالجة وحفل إعلان الفائز باللعبة
     function triggerWinner(winnerParty, reason) {
-      const winnerName = state.names[winnerParty];
-      document.getElementById('winnerAnnounceText').textContent = winnerName;
+      // Increment Match Wins
+      state.gamesWon[winnerParty] = (state.gamesWon[winnerParty] || 0) + 1;
+      saveToLocalStorage();
+
+      document.getElementById('winnerAnnounceText').textContent = state.names[winnerParty];
       document.getElementById('winningReason').textContent = reason;
 
-      // ملء ملخص السكور النهائي
-      const summaryContainer = document.getElementById('finalScoreSummary');
-      summaryContainer.innerHTML = '';
-      const parties = getActiveParties();
-      parties.forEach(p => {
-        const isWinner = p === winnerParty;
-        summaryContainer.innerHTML += `
-          <div class="flex justify-between items-center text-sm py-1 ${isWinner ? 'text-amber-400 font-bold' : 'text-slate-400'}">
-            <span>${state.names[p]} ${isWinner ? '👑' : ''}</span>
-            <span class="text-base">${state.scores[p]} نقطة</span>
-          </div>
-        `;
-      });
-
-      // إطلاق جزيئات الاحتفال (Confetti) البصرية
       startConfetti();
-
-      // إظهار مودال الفوز
       showModal('winnerModal');
+      
+      // Update scoreboard behind modal to show new crown count instantly
+      renderScoreboard(); 
     }
 
-    // بدء تشغيل أنيميشن الكونفيتي البصري الاحتفالي
-    let confettiTimer;
     function startConfetti() {
       const container = document.getElementById('confettiContainer');
       container.innerHTML = '';
-      
-      const colors = ['#f59e0b', '#3b82f6', '#10b981', '#ec4899', '#ffffff'];
+      const colors = ['#f59e0b', '#3b82f6', '#10b981', '#ef4444', '#ffffff'];
 
-      for (let i = 0; i < 50; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDelay = Math.random() * 2 + 's';
-        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-        container.appendChild(confetti);
+      for (let i = 0; i < 60; i++) {
+        const conf = document.createElement('div');
+        conf.className = 'confetti';
+        conf.style.left = Math.random() * 100 + 'vw';
+        conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        conf.style.animationDelay = Math.random() * 1 + 's';
+        conf.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        container.appendChild(conf);
       }
     }
 
-    // إغلاق شاشة الفوز وإعادة تصفير نقاط اللعب للبدء مجدداً
     function closeWinnerModalAndReset() {
       hideModal('winnerModal');
-      resetGameData();
+      // Reset scores and history, but keep gamesWon
+      getActiveParties().forEach(p => state.scores[p] = 0);
+      state.history = [];
+      clearInputs();
+      saveToLocalStorage();
+      renderScoreboard();
+      renderInputs();
+      renderHistory();
     }
 
-    // تصفير نقاط اللعبة بالكامل
-    function resetGameData() {
-      const parties = getActiveParties();
-      parties.forEach(p => {
-        state.scores[p] = 0;
-      });
+    function confirmReset(action) {
+      hideModal('confirmModal');
+      if (action === 'cancel') return;
+
+      if (action === 'all') {
+        state.gamesWon = { teamA: 0, teamB: 0, teamC: 0 };
+        showToast("تم تصفير اللعبة وعداد الانتصارات بالكامل!");
+      } else if (action === 'round') {
+        showToast("تم تصفير نقاط الجولة فقط!");
+      }
+
+      getActiveParties().forEach(p => state.scores[p] = 0);
       state.history = [];
       clearInputs();
       saveToLocalStorage();
@@ -749,234 +701,133 @@
       renderScoreboard();
       renderInputs();
       renderHistory();
-      showToast("تم تصفير اللعبة وبدء جولة جديدة!");
     }
 
-    // تأكيد تصفير اللعبة من المودال
-    function confirmReset(shouldReset) {
-      hideModal('confirmModal');
-      if (shouldReset) {
-        resetGameData();
-      }
-    }
-
-    // فتح شاشة الإعدادات وتعبئة القيم الحالية بالخانات لتعديلها
     function openSettings() {
-      // تحديد الخيارات المحددة مسبقاً بناءً على حالة اللعب الحالية
       updateSettingsUI();
-      
-      // عرض المودال بتأثيرات بصرية
       showModal('settingsModal');
     }
 
-    // إغلاق شاشة الإعدادات
     function closeSettings() {
       hideModal('settingsModal');
     }
 
-    // رندرة وتحديث واجهة الإعدادات والخيارات الفعّالة
     function updateSettingsUI() {
-      const modes = ['1v1', '2v2', '1v1v1'];
-      modes.forEach(m => {
+      ['1v1', '2v2', '1v1v1'].forEach(m => {
         const btn = document.getElementById(`btnMode${m}`);
         if (state.mode === m) {
-          btn.className = "py-2.5 rounded-xl border border-amber-500 bg-amber-500/15 text-amber-500 font-extrabold text-sm transition-all";
+          btn.className = "py-2.5 rounded-xl border border-amber-400 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 font-black text-sm transition-all";
         } else {
-          btn.className = "py-2.5 rounded-xl border border-slate-700/80 hover:bg-slate-800 text-slate-400 font-semibold text-sm transition-all dark:border-slate-700/80 light:border-slate-300 light:text-slate-600";
+          btn.className = "py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-brand-card text-slate-600 dark:text-slate-400 font-bold text-sm transition-all";
         }
       });
 
-      const targets = [101, 151];
-      targets.forEach(t => {
+      [101, 151].forEach(t => {
         const btn = document.getElementById(`btnTarget${t}`);
         if (state.target === t) {
-          btn.className = "py-2.5 rounded-xl border border-amber-500 bg-amber-500/15 text-amber-500 font-extrabold text-sm transition-all";
+          btn.className = "py-2.5 rounded-xl border border-amber-400 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 font-black text-sm transition-all";
         } else {
-          btn.className = "py-2.5 rounded-xl border border-slate-700/80 hover:bg-slate-800 text-slate-400 font-semibold text-sm transition-all dark:border-slate-700/80 light:border-slate-300 light:text-slate-600";
+          btn.className = "py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-brand-card text-slate-600 dark:text-slate-400 font-bold text-sm transition-all";
         }
       });
 
-      // توليد حقول تعديل الأسماء وفقاً للنمط الفعّال المحدد داخل شاشة الإعدادات
       renderNamesInputs();
     }
 
-    // تعيين نمط اللعب المؤقت في الإعدادات
     function setGameMode(mode) {
       state.mode = mode;
-      
-      // تعيين الأسماء الافتراضية إذا لم تكن مهيأة سابقاً لهذا النمط للراحة
-      if (mode === '1v1') {
-        state.names.teamA = state.names.teamA === 'فريقنا' ? 'اللاعب ١' : state.names.teamA;
-        state.names.teamB = state.names.teamB === 'فريقهم' ? 'اللاعب ٢' : state.names.teamB;
-      } else if (mode === '2v2') {
-        state.names.teamA = state.names.teamA === 'اللاعب ١' ? 'فريقنا' : state.names.teamA;
-        state.names.teamB = state.names.teamB === 'اللاعب ٢' ? 'فريقهم' : state.names.teamB;
+      // Default Names logic
+      if (mode === '1v1' || mode === '2v2') {
+        if(state.names.teamA === 'اللاعب ١' || state.names.teamA === 'فريقنا') state.names.teamA = 'لنا';
+        if(state.names.teamB === 'اللاعب ٢' || state.names.teamB === 'فريقهم') state.names.teamB = 'لهم';
       }
-
       updateSettingsUI();
     }
 
-    // تعيين نقاط الفوز المستهدفة
     function setTargetScore(target) {
       state.target = target;
       updateSettingsUI();
     }
 
-    // توليد حقول تعديل الأسماء ديناميكياً بالإعدادات
     function renderNamesInputs() {
       const container = document.getElementById('namesInputContainer');
       container.innerHTML = '';
-      const parties = getActiveParties();
-
-      parties.forEach(party => {
+      getActiveParties().forEach(party => {
         const labelText = party === 'teamA' ? 'الطرف الأول:' : party === 'teamB' ? 'الطرف الثاني:' : 'الطرف الثالث:';
         const currentName = state.names[party] || '';
-
         const inputGroup = document.createElement('div');
         inputGroup.className = "flex flex-col gap-1";
         inputGroup.innerHTML = `
-          <span class="text-xs font-semibold text-slate-400">${labelText}</span>
-          <input type="text" id="inputName_${party}" value="${currentName}" maxLength="12" class="w-full py-2.5 px-3 rounded-xl bg-slate-950/80 dark:bg-slate-950/80 light:bg-slate-50 border border-slate-800 dark:border-slate-800 light:border-slate-200 text-sm font-bold focus:outline-none focus:border-amber-500 text-white dark:text-white light:text-slate-800" placeholder="أدخل اسماً...">
+          <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400">${labelText}</span>
+          <input type="text" id="inputName_${party}" value="${currentName}" maxLength="12" class="w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm font-black text-slate-800 dark:text-white focus:outline-none focus:border-amber-400" placeholder="الاسم...">
         `;
         container.appendChild(inputGroup);
       });
     }
 
-    // حفظ وتطبيق الإعدادات وبدء اللعبة الجديدة كلياً
     function applySettings() {
-      const parties = getActiveParties();
-      
-      // حفظ الأسماء المكتوبة
-      parties.forEach(party => {
+      getActiveParties().forEach(party => {
         const inputEl = document.getElementById(`inputName_${party}`);
         if (inputEl && inputEl.value.trim() !== '') {
           state.names[party] = inputEl.value.trim();
         } else {
-          // تعيين أسماء افتراضية في حال ترك الخانة فارغة
-          state.names[party] = party === 'teamA' ? (state.mode === '2v2' ? 'فريقنا' : 'اللاعب ١') : party === 'teamB' ? (state.mode === '2v2' ? 'فريقهم' : 'اللاعب ٢') : 'اللاعب ٣';
+          state.names[party] = party === 'teamA' ? 'لنا' : party === 'teamB' ? 'لهم' : 'اللاعب ٣';
         }
       });
 
-      // إخفاء المودال
       closeSettings();
-
-      // تصفير جولات ونقاط اللعبة بالكامل لبدء اللعبة الفعالة الجديدة بالخيارات الجديدة
-      state.scores = {
-        teamA: 0,
-        teamB: 0,
-        teamC: 0
-      };
+      // Reset round scores and history on new settings, but KEEP gamesWon counter intact unless explicitly cleared
+      getActiveParties().forEach(party => state.scores[party] = 0);
       state.history = [];
       clearInputs();
-
-      // الحفظ والتحديث للواجهة
       saveToLocalStorage();
+      
       renderScoreboard();
       renderInputs();
       renderHistory();
-      
-      showToast("تم تطبيق الإعدادات وبدء جولة لعب جديدة!");
+      showToast("تم حفظ الإعدادات وبدء جولة جديدة!");
     }
 
-    // دالة مساعدة لفتح المودال بإنيميشن انتقال
     function showModal(modalId) {
       const modal = document.getElementById(modalId);
       modal.classList.remove('hidden');
       setTimeout(() => {
         modal.classList.remove('opacity-0');
-        // تحريك محتوى المودال
         const child = modal.firstElementChild;
         child.classList.remove('translate-y-full', 'scale-95');
       }, 50);
     }
 
-    // دالة مساعدة لإخفاء المودال بإنيميشن انتقال
     function hideModal(modalId) {
       const modal = document.getElementById(modalId);
       modal.classList.add('opacity-0');
       const child = modal.firstElementChild;
       child.classList.add('translate-y-full', 'scale-95');
-      setTimeout(() => {
-        modal.classList.add('hidden');
-      }, 300);
+      setTimeout(() => modal.classList.add('hidden'), 300);
     }
 
-    // إظهار رسالة تنبيه مخصصة (Toast Message) بديلة لـ alert الـ iFrame الممنوع
     let toastTimer;
     function showToast(message) {
       const toast = document.getElementById('toastMessage');
       const text = document.getElementById('toastText');
-      
       clearTimeout(toastTimer);
       text.textContent = message;
       toast.classList.remove('opacity-0', 'pointer-events-none');
-      toast.classList.add('opacity-100');
-
       toastTimer = setTimeout(() => {
-        toast.classList.remove('opacity-100');
         toast.classList.add('opacity-0', 'pointer-events-none');
       }, 3000);
     }
 
-    // إعداد الـ Service Worker لتمكين عمل الموقع بدون اتصال بالإنترنت بالكامل (Offline Support)
     function registerServiceWorker() {
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          // كود السيرفس وركر الذاتي التثبيت داخل التطبيق لضمان الحفظ والعمل غير المتصل
           const swCode = `
-            const CACHE_NAME = 'dominoes-scorer-v1';
-            const urlsToCache = [
-              '/',
-              window.location.pathname,
-              window.location.href,
-              'https://cdn.tailwindcss.com',
-              'https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap'
-            ];
-
-            self.addEventListener('install', event => {
-              event.waitUntil(
-                caches.open(CACHE_NAME).then(cache => {
-                  return cache.addAll(urlsToCache);
-                }).then(() => self.skipWaiting())
-              );
-            });
-
-            self.addEventListener('activate', event => {
-              event.waitUntil(
-                caches.keys().then(cacheNames => {
-                  return Promise.all(
-                    cacheNames.map(cache => {
-                      if (cache !== CACHE_NAME) {
-                        return caches.delete(cache);
-                      }
-                    })
-                  );
-                }).then(() => self.clients.claim())
-              );
-            });
-
-            self.addEventListener('fetch', event => {
-              event.respondWith(
-                caches.match(event.request).then(response => {
-                  return response || fetch(event.request).catch(() => {
-                    // في حالة عدم وجود شبكة واستدعاء مصدر خارجي، نرجعه من الكاش
-                    return caches.match('/');
-                  });
-                })
-              );
-            });
+            const CACHE_NAME = 'dominoes-v2';
+            self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(['/']))));
+            self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
           `;
-
           const blob = new Blob([swCode], { type: 'text/javascript' });
-          const swUrl = URL.createObjectURL(blob);
-
-          navigator.serviceWorker.register(swUrl)
-            .then(reg => {
-              console.log('تم تسجيل Service Worker بنجاح للعمل التام بدون إنترنت!');
-            })
-            .catch(err => {
-              console.error('فشل في تسجيل السيرفس وركر للعمل الأوفلاين:', err);
-            });
+          navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
         });
       }
     }
