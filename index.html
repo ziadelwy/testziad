@@ -76,6 +76,9 @@
         <h1 class="text-xl sm:text-2xl font-black tracking-wide text-slate-800 dark:text-white" id="headerTitle">سجل الدومينوز</h1>
       </div>
       <div class="flex items-center gap-2 sm:gap-3">
+        <button id="historyBtn" class="p-2 sm:p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-white hover:scale-105 active:scale-95 transition-all shadow-sm" aria-label="السجل">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </button>
         <button id="themeToggle" class="p-2 sm:p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-amber-400 hover:scale-105 active:scale-95 transition-all shadow-sm" aria-label="تغيير المظهر">
           <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path></svg>
           <svg id="moonIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
@@ -122,51 +125,55 @@
       
     </section>
 
-    <!-- History Log -->
-    <section class="flex-1 min-h-[80px] overflow-hidden flex flex-col">
-      <div class="h-full bg-white dark:bg-slate-900 rounded-2xl p-2 sm:p-3 border border-slate-200 dark:border-slate-800 flex flex-col shadow-sm">
-        <h3 class="text-[11px] font-bold text-slate-400 mb-1.5 border-b border-slate-100 dark:border-slate-800 pb-1 text-center">سجل الجولات الحالية</h3>
-        <div id="historyLog" class="flex-1 overflow-y-auto space-y-1.5 pr-1 text-xs sm:text-sm">
-          <div class="text-center text-xs text-slate-400 py-2" id="emptyHistoryMsg">ابدأ بإدخال النقاط وتسجيلها</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Touch Numpad -->
-    <section class="mt-2 shrink-0">
+    <!-- Touch Numpad (Enlarged) -->
+    <section class="mt-4 shrink-0 flex-1 flex flex-col justify-end pb-2">
       <!-- Quick Adds -->
-      <div class="grid grid-cols-4 gap-2 mb-2">
-        <button onclick="addQuickScore(5)" class="py-1.5 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-sm active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+5</button>
-        <button onclick="addQuickScore(10)" class="py-1.5 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-sm active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+10</button>
-        <button onclick="addQuickScore(20)" class="py-1.5 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-sm active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+20</button>
-        <button onclick="addQuickScore(50)" class="py-1.5 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-sm active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+50</button>
+      <div class="grid grid-cols-4 gap-2 sm:gap-3 mb-3 sm:mb-4">
+        <button onclick="addQuickScore(5)" class="py-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-lg active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+5</button>
+        <button onclick="addQuickScore(10)" class="py-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-lg active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+10</button>
+        <button onclick="addQuickScore(20)" class="py-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-lg active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+20</button>
+        <button onclick="addQuickScore(50)" class="py-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 font-bold text-lg active:bg-amber-100 dark:active:bg-amber-500/20 transition-colors">+50</button>
       </div>
       
       <!-- Keypad -->
-      <div class="bg-white dark:bg-brand-card rounded-2xl p-2 sm:p-3 shadow-md border border-slate-200 dark:border-slate-800">
-        <div class="grid grid-cols-3 gap-1.5 sm:gap-2">
-          <!-- تعديل ترتيب الأزرار لتبدأ بـ 1 من اليسار في اتجاه RTL -->
-          <button onclick="pressKey('3')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">3</button>
-          <button onclick="pressKey('2')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">2</button>
-          <button onclick="pressKey('1')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">1</button>
+      <div class="bg-white dark:bg-brand-card rounded-3xl p-3 sm:p-4 shadow-md border border-slate-200 dark:border-slate-800">
+        <div class="grid grid-cols-3 gap-2 sm:gap-3">
+          <!-- تعديل ترتيب الأزرار لتبدأ بـ 1 من اليسار في اتجاه RTL وتكبير الحجم -->
+          <button onclick="pressKey('3')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">3</button>
+          <button onclick="pressKey('2')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">2</button>
+          <button onclick="pressKey('1')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">1</button>
           
-          <button onclick="pressKey('6')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">6</button>
-          <button onclick="pressKey('5')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">5</button>
-          <button onclick="pressKey('4')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">4</button>
+          <button onclick="pressKey('6')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">6</button>
+          <button onclick="pressKey('5')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">5</button>
+          <button onclick="pressKey('4')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">4</button>
           
-          <button onclick="pressKey('9')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">9</button>
-          <button onclick="pressKey('8')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">8</button>
-          <button onclick="pressKey('7')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">7</button>
+          <button onclick="pressKey('9')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">9</button>
+          <button onclick="pressKey('8')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">8</button>
+          <button onclick="pressKey('7')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">7</button>
           
-          <!-- زر الحذف على اليمين والصفر بالمنتصف ومسح الكل على اليسار -->
-          <button onclick="pressKey('Backspace')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white flex items-center justify-center active:scale-95 transition-all">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414A2 2 0 0010.828 19h6.344a2 2 0 002-2V7a2 2 0 00-2-2h-6.344a2 2 0 00-1.414.586L3 12z"></path></svg>
+          <button onclick="pressKey('Backspace')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white flex items-center justify-center active:scale-95 transition-all">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414A2 2 0 0010.828 19h6.344a2 2 0 002-2V7a2 2 0 00-2-2h-6.344a2 2 0 00-1.414.586L3 12z"></path></svg>
           </button>
-          <button onclick="pressKey('0')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">0</button>
-          <button onclick="pressKey('C')" class="h-10 sm:h-12 rounded-xl bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-500 font-bold text-sm active:scale-95 transition-all">مسح (C)</button>
+          <button onclick="pressKey('0')" class="h-16 sm:h-20 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-black text-2xl sm:text-3xl active:scale-95 transition-all">0</button>
+          <button onclick="pressKey('C')" class="h-16 sm:h-20 rounded-2xl bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-500 font-bold text-base sm:text-lg active:scale-95 transition-all">مسح</button>
         </div>
       </div>
     </section>
+  </div>
+
+  <!-- History Modal -->
+  <div id="historyModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white dark:bg-brand-darker rounded-t-[32px] w-full max-w-md p-5 sm:p-6 shadow-2xl transform translate-y-full transition-transform duration-300 h-[70vh] flex flex-col">
+      <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3 mb-3 shrink-0">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-white">سجل الجولات</h2>
+        <button id="closeHistory" class="p-1 rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <div id="historyLog" class="flex-1 overflow-y-auto space-y-2 pr-1 text-sm pb-4">
+        <div class="text-center text-sm text-slate-400 py-4" id="emptyHistoryMsg">لا توجد جولات مسجلة بعد</div>
+      </div>
+    </div>
   </div>
 
   <!-- Settings Modal -->
@@ -346,6 +353,9 @@
         saveToLocalStorage();
       });
 
+      document.getElementById('historyBtn').addEventListener('click', () => showModal('historyModal'));
+      document.getElementById('closeHistory').addEventListener('click', () => hideModal('historyModal'));
+
       document.getElementById('settingsBtn').addEventListener('click', openSettings);
       document.getElementById('closeSettings').addEventListener('click', closeSettings);
       document.getElementById('applySettingsBtn').addEventListener('click', applySettings);
@@ -425,7 +435,7 @@
       log.innerHTML = '';
 
       if (state.history.length === 0) {
-        log.innerHTML = '<div class="text-center text-xs text-slate-400 py-2" id="emptyHistoryMsg">ابدأ بإدخال النقاط وتسجيلها</div>';
+        log.innerHTML = '<div class="text-center text-sm text-slate-400 py-4" id="emptyHistoryMsg">لا توجد جولات مسجلة بعد</div>';
         return;
       }
 
