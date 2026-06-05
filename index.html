@@ -165,12 +165,12 @@
   <div id="historyModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-opacity duration-300">
     <div class="bg-white dark:bg-brand-darker rounded-t-[32px] w-full max-w-md p-5 sm:p-6 shadow-2xl transform translate-y-full transition-transform duration-300 h-[70vh] flex flex-col">
       <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3 mb-3 shrink-0">
-        <h2 class="text-lg font-bold text-slate-800 dark:text-white">سجل الجولات</h2>
+        <h2 class="text-lg font-bold text-slate-800 dark:text-white">سجل الجولات (التراكمي)</h2>
         <button id="closeHistory" class="p-1 rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
-      <div id="historyLog" class="flex-1 overflow-y-auto space-y-2 pr-1 text-sm pb-4">
+      <div id="historyLog" class="flex-1 overflow-y-auto pr-1 text-sm pb-4">
         <div class="text-center text-sm text-slate-400 py-4" id="emptyHistoryMsg">لا توجد جولات مسجلة بعد</div>
       </div>
     </div>
@@ -231,10 +231,10 @@
       </div>
       <div class="flex flex-col gap-2 pt-2">
         <button onclick="confirmReset('round')" class="w-full py-3 rounded-xl bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900 text-sm font-bold transition-all active:scale-95">
-          مسح نقاط الجولة فقط (الاحتفاظ بالانتصارات)
+          مسح نقاط الجولة فقط (الاحتفاظ بالسجل والانتصارات)
         </button>
         <button onclick="confirmReset('all')" class="w-full py-3 rounded-xl bg-rose-50 text-rose-600 dark:bg-rose-500/10 dark:text-rose-500 text-sm font-bold transition-all active:scale-95 border border-rose-200 dark:border-rose-900/50">
-          مسح كل شيء (الجولة والانتصارات)
+          مسح كل شيء (الجولة والانتصارات والسجل)
         </button>
         <button onclick="confirmReset('cancel')" class="w-full py-3 rounded-xl text-slate-600 dark:text-slate-400 text-sm font-bold transition-all active:scale-95 hover:bg-slate-100 dark:hover:bg-slate-800">
           إلغاء
@@ -438,7 +438,6 @@
 
     function renderHistory() {
       const log = document.getElementById('historyLog');
-      
       log.innerHTML = '';
 
       if (state.history.length === 0) {
@@ -446,17 +445,28 @@
         return;
       }
 
-      state.history.forEach((round, index) => {
+      let roundNum = 1;
+      state.history.forEach((round) => {
+        // إظهار الفاصل المخصص (مؤشر التصفير أو نهاية المباراة)
+        if (round.type === 'divider') {
+          roundNum = 1; // إعادة تعيين العداد بعد كل دورة تصفير أو فوز
+          const divider = document.createElement('div');
+          divider.className = "flex items-center justify-center py-2 my-2.5 bg-amber-50 dark:bg-amber-500/10 rounded-xl border border-amber-200 dark:border-amber-500/20 text-amber-700 dark:text-amber-500 font-bold text-xs sm:text-sm text-center shadow-sm mx-1";
+          divider.textContent = round.text;
+          log.appendChild(divider);
+          return;
+        }
+
         const parties = getActiveParties();
         const roundRow = document.createElement('div');
-        roundRow.className = "flex items-center justify-between py-2 px-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 text-xs sm:text-sm";
+        roundRow.className = "flex items-center justify-between py-2 px-3 mb-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 text-xs sm:text-sm";
         
         let roundValuesHtml = '';
         parties.forEach((party) => {
           const val = round[party] || 0;
           roundValuesHtml += `
             <div class="flex items-center gap-1.5 px-2 w-full justify-center">
-              <span class="text-slate-400 dark:text-slate-500 font-bold">${state.names[party].substring(0,6)}:</span>
+              <span class="text-slate-400 dark:text-slate-500 font-bold">${(state.names[party] || '').substring(0,6)}:</span>
               <span class="font-black ${val > 0 ? 'text-amber-500' : 'text-slate-600 dark:text-slate-400'}">${val}</span>
             </div>
           `;
@@ -464,15 +474,17 @@
 
         roundRow.innerHTML = `
           <div class="flex items-center justify-center w-6 shrink-0">
-            <span class="text-[10px] font-black text-slate-400 dark:text-slate-500">#${index + 1}</span>
+            <span class="text-[10px] font-black text-slate-400 dark:text-slate-500">#${roundNum}</span>
           </div>
           <div class="flex-1 flex justify-around divide-x divide-x-reverse divide-slate-200 dark:divide-slate-700">
             ${roundValuesHtml}
           </div>
         `;
         log.appendChild(roundRow);
+        roundNum++;
       });
 
+      // النزول تلقائياً لأسفل السجل
       setTimeout(() => {
         log.scrollTop = log.scrollHeight;
       }, 50);
@@ -554,9 +566,18 @@
         showToast("لا توجد جولات للتراجع عنها!");
         return;
       }
-      const lastRound = state.history.pop();
+
+      const lastItem = state.history[state.history.length - 1];
+      
+      // لا تسمح بالتراجع إذا كان العنصر الأخير هو "فاصل تصفير/فوز" لتجنب إفساد السجل
+      if (lastItem.type === 'divider') {
+        showToast("لا يمكن التراجع عن التصفير أو بدء جولة جديدة!");
+        return;
+      }
+
+      state.history.pop();
       getActiveParties().forEach(party => {
-        state.scores[party] = Math.max(0, (state.scores[party] || 0) - (lastRound[party] || 0));
+        state.scores[party] = Math.max(0, (state.scores[party] || 0) - (lastItem[party] || 0));
       });
 
       saveToLocalStorage();
@@ -645,10 +666,15 @@
 
     function closeWinnerModalAndReset() {
       hideModal('winnerModal');
+      
+      // إضافة فاصل تاريخي للمباراة الفائزة في السجل
+      if (lastWinnerParty) {
+        state.history.push({ type: 'divider', text: `🏆 انتهت المباراة بفوز ${state.names[lastWinnerParty]}` });
+      }
       lastWinnerParty = null;
-      // Reset scores and history, but keep gamesWon
+
+      // Reset scores only (Keep history and gamesWon intact)
       getActiveParties().forEach(p => state.scores[p] = 0);
-      state.history = [];
       clearInputs();
       saveToLocalStorage();
       renderScoreboard();
@@ -662,13 +688,17 @@
 
       if (action === 'all') {
         state.gamesWon = { teamA: 0, teamB: 0, teamC: 0 };
-        showToast("تم تصفير اللعبة وعداد الانتصارات بالكامل!");
+        state.history = []; // مسح السجل بالكامل فقط هنا
+        showToast("تم تصفير اللعبة وعداد الانتصارات والسجل بالكامل!");
       } else if (action === 'round') {
+        // إضافة فاصل عند التصفير العادي لتنظيم السجل
+        if (state.history.length > 0 && state.history[state.history.length - 1].type !== 'divider') {
+          state.history.push({ type: 'divider', text: '🔄 تم تصفير نقاط الجولة' });
+        }
         showToast("تم تصفير نقاط الجولة فقط!");
       }
 
       getActiveParties().forEach(p => state.scores[p] = 0);
-      state.history = [];
       clearInputs();
       saveToLocalStorage();
       
@@ -750,9 +780,14 @@
       });
 
       closeSettings();
-      // Reset round scores and history on new settings, but KEEP gamesWon counter intact unless explicitly cleared
+      
+      // إضافة فاصل لتغيير الإعدادات في حال وجود جولة جارية
+      if (state.history.length > 0 && state.history[state.history.length - 1].type !== 'divider') {
+        state.history.push({ type: 'divider', text: '⚙️ تم تغيير الإعدادات وتصفير الجولة' });
+      }
+
+      // Reset round scores on new settings, KEEP gamesWon and history
       getActiveParties().forEach(party => state.scores[party] = 0);
-      state.history = [];
       clearInputs();
       saveToLocalStorage();
       
