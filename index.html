@@ -145,23 +145,25 @@
       <!-- Keypad -->
       <div class="bg-white dark:bg-brand-card rounded-2xl p-2 sm:p-3 shadow-md border border-slate-200 dark:border-slate-800">
         <div class="grid grid-cols-3 gap-1.5 sm:gap-2">
-          <button onclick="pressKey('1')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">1</button>
-          <button onclick="pressKey('2')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">2</button>
+          <!-- تعديل ترتيب الأزرار لتبدأ بـ 1 من اليسار في اتجاه RTL -->
           <button onclick="pressKey('3')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">3</button>
+          <button onclick="pressKey('2')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">2</button>
+          <button onclick="pressKey('1')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">1</button>
           
-          <button onclick="pressKey('4')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">4</button>
-          <button onclick="pressKey('5')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">5</button>
           <button onclick="pressKey('6')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">6</button>
+          <button onclick="pressKey('5')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">5</button>
+          <button onclick="pressKey('4')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">4</button>
           
-          <button onclick="pressKey('7')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">7</button>
-          <button onclick="pressKey('8')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">8</button>
           <button onclick="pressKey('9')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">9</button>
+          <button onclick="pressKey('8')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">8</button>
+          <button onclick="pressKey('7')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">7</button>
           
-          <button onclick="pressKey('C')" class="h-10 sm:h-12 rounded-xl bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-500 font-bold text-sm active:scale-95 transition-all">مسح (C)</button>
-          <button onclick="pressKey('0')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">0</button>
+          <!-- زر الحذف على اليمين والصفر بالمنتصف ومسح الكل على اليسار -->
           <button onclick="pressKey('Backspace')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white flex items-center justify-center active:scale-95 transition-all">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414A2 2 0 0010.828 19h6.344a2 2 0 002-2V7a2 2 0 00-2-2h-6.344a2 2 0 00-1.414.586L3 12z"></path></svg>
           </button>
+          <button onclick="pressKey('0')" class="h-10 sm:h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-lg active:scale-95 transition-all">0</button>
+          <button onclick="pressKey('C')" class="h-10 sm:h-12 rounded-xl bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-500 font-bold text-sm active:scale-95 transition-all">مسح (C)</button>
         </div>
       </div>
     </section>
