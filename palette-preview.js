@@ -6,11 +6,12 @@ const paletteStatus = document.querySelector("#palette-preview-status");
 const paletteTitle = document.querySelector("#palette-preview-title");
 const root = document.documentElement;
 
-function makeLightPalette(name, colors) {
-	const [bg, surface, surface2, deep, accent, cream, text, muted, bgRgb, creamRgb, accentRgb, deepRgb] = colors;
+function makePalette(name, mode, colors) {
+	const [bg, surface, surface2, deep, accent, cream, text, muted, bgRgb, creamRgb, accentRgb, deepRgb, accentInk] = colors;
+	const isDark = mode === "dark";
 	return {
 		name,
-		mode: "light",
+		mode,
 		values: {
 			"--borhan-green": deep,
 			"--borhan-mint": accent,
@@ -21,7 +22,7 @@ function makeLightPalette(name, colors) {
 			"--c-bg": bg,
 			"--c-surface": surface,
 			"--c-surface-2": surface2,
-			"--c-ink": deep,
+			"--c-ink": isDark ? cream : deep,
 			"--c-text": text,
 			"--c-muted": muted,
 			"--c-line": `rgba(${deepRgb}, .12)`,
@@ -29,15 +30,15 @@ function makeLightPalette(name, colors) {
 			"--c-accent": accent,
 			"--c-accent-soft": `rgba(${accentRgb}, .13)`,
 			"--c-on-dark": cream,
-			"--c-on-dark-muted": "#D2D8D4",
+			"--c-on-dark-muted": isDark ? text : "#D2D8D4",
 			"--c-dark-line": `rgba(${creamRgb}, .18)`,
 			"--c-focus": accent,
 			"--theme-bg-rgb": bgRgb,
 			"--theme-cream-rgb": creamRgb,
-			"--theme-grid-rgb": deepRgb,
+			"--theme-grid-rgb": isDark ? creamRgb : deepRgb,
 			"--theme-accent-rgb": accentRgb,
 			"--theme-deep-rgb": deepRgb,
-			"--theme-accent-ink": "#FFFFFF"
+			"--theme-accent-ink": accentInk
 		}
 	};
 }
@@ -45,6 +46,7 @@ function makeLightPalette(name, colors) {
 const palettes = {
 	original: {
 		name: "الأخضر الأصلي",
+		mode: "dark",
 		values: {
 			"--borhan-green": "#182B27",
 			"--borhan-mint": "#9EDAD0",
@@ -69,254 +71,26 @@ const palettes = {
 			"--theme-accent-ink": "#0D1815"
 		}
 	},
-	"navy-gold": {
-		name: "كحلي وذهبي",
-		values: {
-			"--borhan-green": "#182434",
-			"--borhan-mint": "#D5B877",
-			"--borhan-cream": "#F2EBDD",
-			"--c-bg": "#101822",
-			"--c-surface": "#172333",
-			"--c-surface-2": "#223142",
-			"--c-ink": "#F2EBDD",
-			"--c-text": "#D6DCE1",
-			"--c-muted": "#A7B1BA",
-			"--c-line": "rgba(242, 235, 221, .1)",
-			"--c-line-strong": "rgba(242, 235, 221, .22)",
-			"--c-accent-soft": "rgba(213, 184, 119, .14)",
-			"--c-on-dark": "#F2EBDD",
-			"--c-on-dark-muted": "#C2C5C5",
-			"--c-dark-line": "rgba(242, 235, 221, .14)",
-			"--c-focus": "#D5B877",
-			"--theme-bg-rgb": "16, 24, 34",
-			"--theme-cream-rgb": "242, 235, 221",
-			"--theme-accent-rgb": "213, 184, 119",
-			"--theme-deep-rgb": "24, 36, 52",
-			"--theme-accent-ink": "#101822"
-		}
-	},
-	copper: {
-		name: "فحمي ونحاسي",
-		values: {
-			"--borhan-green": "#211A16",
-			"--borhan-mint": "#D69A73",
-			"--borhan-cream": "#F2E9DF",
-			"--c-bg": "#171412",
-			"--c-surface": "#211C18",
-			"--c-surface-2": "#2D241F",
-			"--c-ink": "#F2E9DF",
-			"--c-text": "#D9CFC5",
-			"--c-muted": "#AA9F95",
-			"--c-line": "rgba(242, 233, 223, .1)",
-			"--c-line-strong": "rgba(242, 233, 223, .22)",
-			"--c-accent-soft": "rgba(214, 154, 115, .14)",
-			"--c-on-dark": "#F2E9DF",
-			"--c-on-dark-muted": "#C5B9AE",
-			"--c-dark-line": "rgba(242, 233, 223, .14)",
-			"--c-focus": "#D69A73",
-			"--theme-bg-rgb": "23, 20, 18",
-			"--theme-cream-rgb": "242, 233, 223",
-			"--theme-accent-rgb": "214, 154, 115",
-			"--theme-deep-rgb": "33, 26, 22",
-			"--theme-accent-ink": "#171412"
-		}
-	},
-	emerald: {
-		name: "زمردي وكريمي",
-		values: {
-			"--borhan-green": "#122923",
-			"--borhan-mint": "#83C8AF",
-			"--borhan-cream": "#F1EEE3",
-			"--c-bg": "#0C1C1A",
-			"--c-surface": "#142824",
-			"--c-surface-2": "#1D3933",
-			"--c-ink": "#F1EEE3",
-			"--c-text": "#CCDDD5",
-			"--c-muted": "#9EB9AE",
-			"--c-line": "rgba(241, 238, 227, .1)",
-			"--c-line-strong": "rgba(241, 238, 227, .22)",
-			"--c-accent-soft": "rgba(131, 200, 175, .14)",
-			"--c-on-dark": "#F1EEE3",
-			"--c-on-dark-muted": "#B9CEC4",
-			"--c-dark-line": "rgba(241, 238, 227, .14)",
-			"--c-focus": "#83C8AF",
-			"--theme-bg-rgb": "12, 28, 26",
-			"--theme-cream-rgb": "241, 238, 227",
-			"--theme-accent-rgb": "131, 200, 175",
-			"--theme-deep-rgb": "18, 41, 35",
-			"--theme-accent-ink": "#0C1C1A"
-		}
-	},
-	burgundy: {
-		name: "عنابي ووردي",
-		values: {
-			"--borhan-green": "#2A151D",
-			"--borhan-mint": "#D8A1AD",
-			"--borhan-cream": "#F4E8E6",
-			"--c-bg": "#211218",
-			"--c-surface": "#2C1921",
-			"--c-surface-2": "#3D222E",
-			"--c-ink": "#F4E8E6",
-			"--c-text": "#E0D3D7",
-			"--c-muted": "#BDAAB0",
-			"--c-line": "rgba(244, 232, 230, .1)",
-			"--c-line-strong": "rgba(244, 232, 230, .22)",
-			"--c-accent-soft": "rgba(216, 161, 173, .14)",
-			"--c-on-dark": "#F4E8E6",
-			"--c-on-dark-muted": "#D0BCC2",
-			"--c-dark-line": "rgba(244, 232, 230, .14)",
-			"--c-focus": "#D8A1AD",
-			"--theme-bg-rgb": "33, 18, 24",
-			"--theme-cream-rgb": "244, 232, 230",
-			"--theme-accent-rgb": "216, 161, 173",
-			"--theme-deep-rgb": "42, 21, 29",
-			"--theme-accent-ink": "#211218"
-		}
-	},
-	"royal-blue": {
-		name: "أزرق ملكي",
-		values: {
-			"--borhan-green": "#18203B",
-			"--borhan-mint": "#9BB6EC",
-			"--borhan-cream": "#EEF1F7",
-			"--c-bg": "#11172A",
-			"--c-surface": "#19223A",
-			"--c-surface-2": "#222F4F",
-			"--c-ink": "#EEF1F7",
-			"--c-text": "#D4DBEB",
-			"--c-muted": "#A5B0CC",
-			"--c-line": "rgba(238, 241, 247, .1)",
-			"--c-line-strong": "rgba(238, 241, 247, .22)",
-			"--c-accent-soft": "rgba(155, 182, 236, .14)",
-			"--c-on-dark": "#EEF1F7",
-			"--c-on-dark-muted": "#BDC8E0",
-			"--c-dark-line": "rgba(238, 241, 247, .14)",
-			"--c-focus": "#9BB6EC",
-			"--theme-bg-rgb": "17, 23, 42",
-			"--theme-cream-rgb": "238, 241, 247",
-			"--theme-accent-rgb": "155, 182, 236",
-			"--theme-deep-rgb": "24, 32, 59",
-			"--theme-accent-ink": "#11172A"
-		}
-	},
-	plum: {
-		name: "بنفسجي ليلي",
-		values: {
-			"--borhan-green": "#261A30",
-			"--borhan-mint": "#B8A0D9",
-			"--borhan-cream": "#F1EAF8",
-			"--c-bg": "#1B1525",
-			"--c-surface": "#251D32",
-			"--c-surface-2": "#342844",
-			"--c-ink": "#F1EAF8",
-			"--c-text": "#DED4E9",
-			"--c-muted": "#B5A9C2",
-			"--c-line": "rgba(241, 234, 248, .1)",
-			"--c-line-strong": "rgba(241, 234, 248, .22)",
-			"--c-accent-soft": "rgba(184, 160, 217, .14)",
-			"--c-on-dark": "#F1EAF8",
-			"--c-on-dark-muted": "#C9BED4",
-			"--c-dark-line": "rgba(241, 234, 248, .14)",
-			"--c-focus": "#B8A0D9",
-			"--theme-bg-rgb": "27, 21, 37",
-			"--theme-cream-rgb": "241, 234, 248",
-			"--theme-accent-rgb": "184, 160, 217",
-			"--theme-deep-rgb": "38, 26, 48",
-			"--theme-accent-ink": "#1B1525"
-		}
-	},
-	petrol: {
-		name: "بترولي ومرجاني",
-		values: {
-			"--borhan-green": "#142A30",
-			"--borhan-mint": "#EEA18D",
-			"--borhan-cream": "#F5ECE3",
-			"--c-bg": "#0D1D20",
-			"--c-surface": "#152B30",
-			"--c-surface-2": "#1E3B40",
-			"--c-ink": "#F5ECE3",
-			"--c-text": "#D3DFDF",
-			"--c-muted": "#9FB3B4",
-			"--c-line": "rgba(245, 236, 227, .1)",
-			"--c-line-strong": "rgba(245, 236, 227, .22)",
-			"--c-accent-soft": "rgba(238, 161, 141, .14)",
-			"--c-on-dark": "#F5ECE3",
-			"--c-on-dark-muted": "#BFCBC9",
-			"--c-dark-line": "rgba(245, 236, 227, .14)",
-			"--c-focus": "#EEA18D",
-			"--theme-bg-rgb": "13, 29, 32",
-			"--theme-cream-rgb": "245, 236, 227",
-			"--theme-accent-rgb": "238, 161, 141",
-			"--theme-deep-rgb": "20, 42, 48",
-			"--theme-accent-ink": "#0D1D20"
-		}
-	},
-	slate: {
-		name: "رمادي ونعناعي",
-		values: {
-			"--borhan-green": "#202728",
-			"--borhan-mint": "#A9C9BD",
-			"--borhan-cream": "#F0F0E9",
-			"--c-bg": "#181C1D",
-			"--c-surface": "#222829",
-			"--c-surface-2": "#2C3434",
-			"--c-ink": "#F0F0E9",
-			"--c-text": "#D4D9D7",
-			"--c-muted": "#A7B0AD",
-			"--c-line": "rgba(240, 240, 233, .1)",
-			"--c-line-strong": "rgba(240, 240, 233, .22)",
-			"--c-accent-soft": "rgba(169, 201, 189, .14)",
-			"--c-on-dark": "#F0F0E9",
-			"--c-on-dark-muted": "#BEC7C3",
-			"--c-dark-line": "rgba(240, 240, 233, .14)",
-			"--c-focus": "#A9C9BD",
-			"--theme-bg-rgb": "24, 28, 29",
-			"--theme-cream-rgb": "240, 240, 233",
-			"--theme-accent-rgb": "169, 201, 189",
-			"--theme-deep-rgb": "32, 39, 40",
-			"--theme-accent-ink": "#181C1D"
-		}
-	},
-	bronze: {
-		name: "بني وذهبي مطفي",
-		values: {
-			"--borhan-green": "#2A2116",
-			"--borhan-mint": "#D5B66F",
-			"--borhan-cream": "#F2E7D2",
-			"--c-bg": "#1F1A13",
-			"--c-surface": "#2B241A",
-			"--c-surface-2": "#3A3021",
-			"--c-ink": "#F2E7D2",
-			"--c-text": "#DDD4C3",
-			"--c-muted": "#B4A88F",
-			"--c-line": "rgba(242, 231, 210, .1)",
-			"--c-line-strong": "rgba(242, 231, 210, .22)",
-			"--c-accent-soft": "rgba(213, 182, 111, .14)",
-			"--c-on-dark": "#F2E7D2",
-			"--c-on-dark-muted": "#C9BDA6",
-			"--c-dark-line": "rgba(242, 231, 210, .14)",
-			"--c-focus": "#D5B66F",
-			"--theme-bg-rgb": "31, 26, 19",
-			"--theme-cream-rgb": "242, 231, 210",
-			"--theme-accent-rgb": "213, 182, 111",
-			"--theme-deep-rgb": "42, 33, 22",
-			"--theme-accent-ink": "#1F1A13"
-		}
-	}
+	"forest-sage": makePalette("غابة ومريمي", "dark", ["#0E1714", "#14201B", "#1B2B23", "#16352C", "#A9C6AC", "#EFEDE3", "#D2D9D3", "#9FAC9F", "14, 23, 20", "239, 237, 227", "169, 198, 172", "22, 53, 44", "#16352C"]),
+	"midnight-slate": makePalette("ليلي وأردوازي", "dark", ["#111820", "#19232D", "#232F3B", "#1A2C38", "#ABC0D0", "#EEF1F2", "#D0D9DE", "#A0ADB4", "17, 24, 32", "238, 241, 242", "171, 192, 208", "26, 44, 56", "#1A2C38"]),
+	"graphite-silver": makePalette("جرافيت وفضي", "dark", ["#151719", "#1E2224", "#292E30", "#202526", "#B7C0C2", "#F0F0ED", "#D5D8D8", "#A7AFB0", "21, 23, 25", "240, 240, 237", "183, 192, 194", "32, 37, 38", "#202526"]),
+	"olive-stone": makePalette("زيتوني وحجري", "dark", ["#171A13", "#202419", "#2D3321", "#252D1B", "#C5C59D", "#F1EEE4", "#D6D6C8", "#AAAD96", "23, 26, 19", "241, 238, 228", "197, 197, 157", "37, 45, 27", "#252D1B"]),
+	"petrol-mist": makePalette("بترولي وضبابي", "dark", ["#101A1C", "#172629", "#20373A", "#183237", "#9EC4C1", "#EEF2ED", "#D0DDDB", "#9FB4B2", "16, 26, 28", "238, 242, 237", "158, 196, 193", "24, 50, 55", "#183237"]),
+	"plum-smoke": makePalette("دخاني وموف", "dark", ["#1A171D", "#242027", "#302A35", "#2A2430", "#C0B4C7", "#F1EDF1", "#D9D2DA", "#AAA0AE", "26, 23, 29", "241, 237, 241", "192, 180, 199", "42, 36, 48", "#2A2430"]),
+	"oxblood-warm": makePalette("عنابي دافئ", "dark", ["#1C1517", "#291D20", "#39272B", "#342126", "#D0A7A2", "#F2ECE6", "#DED5D1", "#B4A6A1", "28, 21, 23", "242, 236, 230", "208, 167, 162", "52, 33, 38", "#342126"]),
+	"brown-sand": makePalette("بني ورملي", "dark", ["#201A14", "#2B231A", "#3A3025", "#38291C", "#D1B28A", "#F3EBDD", "#DDD4C8", "#B1A28D", "32, 26, 20", "243, 235, 221", "209, 178, 138", "56, 41, 28", "#38291C"]),
+	"slate-sky": makePalette("أردوازي وسماوي", "dark", ["#171B23", "#202631", "#2B3542", "#263642", "#A9C2CE", "#EEF1F3", "#D2DADF", "#A3AEB6", "23, 27, 35", "238, 241, 243", "169, 194, 206", "38, 54, 66", "#263642"]),
+	ivory: makePalette("عاجي وأخضر", "light", ["#F5F5EF", "#FFFFFF", "#E7EEE8", "#153B35", "#2F796A", "#E8EEE7", "#33443E", "#68746E", "245, 245, 239", "232, 238, 231", "47, 121, 106", "21, 59, 53", "#FFFFFF"]),
+	"porcelain-navy": makePalette("خزفي وكحلي", "light", ["#F3F5F7", "#FFFFFF", "#E6EBF0", "#243746", "#506E82", "#E8EDF0", "#394951", "#707E84", "243, 245, 247", "232, 237, 240", "80, 110, 130", "36, 55, 70", "#FFFFFF"]),
+	"warm-sand": makePalette("رملي وزيتوني", "light", ["#F7F4EC", "#FFFDF8", "#E8E4D9", "#3B4639", "#607850", "#EBE7DC", "#424B41", "#737C6F", "247, 244, 236", "235, 231, 220", "96, 120, 80", "59, 70, 57", "#FFFFFF"]),
+	"cloud-teal": makePalette("سحابي وبترولي", "light", ["#F1F6F6", "#FCFEFE", "#DFEAEA", "#284548", "#527C80", "#E5EEEE", "#37494A", "#6D7F80", "241, 246, 246", "229, 238, 238", "82, 124, 128", "40, 69, 72", "#FFFFFF"]),
+	"stone-copper": makePalette("حجري ونحاسي هادئ", "light", ["#F5F2ED", "#FFFEFC", "#EAE4DC", "#4A3B31", "#936F55", "#EAE2D7", "#51443A", "#80766D", "245, 242, 237", "234, 226, 215", "147, 111, 85", "74, 59, 49", "#FFFFFF"]),
+	"pearl-sage": makePalette("لؤلؤي ومريمي", "light", ["#F2F5F1", "#FDFFFC", "#E2E9E1", "#30453A", "#5F7D6C", "#E6ECE4", "#3E5045", "#738075", "242, 245, 241", "230, 236, 228", "95, 125, 108", "48, 69, 58", "#FFFFFF"]),
+	"mist-blue": makePalette("ضبابي وأزرق", "light", ["#F1F4F7", "#FFFFFF", "#E1E7EC", "#2D3E4F", "#607B93", "#E8EDF1", "#3D4B59", "#74818C", "241, 244, 247", "232, 237, 241", "96, 123, 147", "45, 62, 79", "#FFFFFF"]),
+	"rose-grey": makePalette("وردي ورمادي هادئ", "light", ["#F7F2F2", "#FFFDFD", "#ECE3E4", "#493538", "#8D676C", "#EFE5E5", "#514347", "#807276", "247, 242, 242", "239, 229, 229", "141, 103, 108", "73, 53, 56", "#FFFFFF"]),
+	"lavender-stone": makePalette("لافندر وحجر", "light", ["#F4F2F7", "#FEFDFF", "#E9E6EE", "#3D394C", "#77718A", "#ECE9F1", "#494656", "#777484", "244, 242, 247", "236, 233, 241", "119, 113, 138", "61, 57, 76", "#FFFFFF"]),
+	"graphite-mint": makePalette("جرافيت ونعناعي", "light", ["#F1F3F2", "#FFFFFF", "#E2E7E4", "#35413F", "#5B786E", "#E6EBE8", "#3F4A47", "#737E7A", "241, 243, 242", "230, 235, 232", "91, 120, 110", "53, 65, 63", "#FFFFFF"])
 };
-
-Object.assign(palettes, {
-	ivory: makeLightPalette("عاجي وأخضر", ["#F5F5EF", "#FFFFFF", "#E7EEE8", "#153B35", "#2F796A", "#E8EEE7", "#33443E", "#68746E", "245, 245, 239", "232, 238, 231", "47, 121, 106", "21, 59, 53"]),
-	porcelain: makeLightPalette("خزفي وكحلي", ["#F2F5FA", "#FFFFFF", "#E4EAF3", "#1A2E48", "#466C9E", "#E4EAF3", "#374458", "#68758A", "242, 245, 250", "228, 234, 243", "70, 108, 158", "26, 46, 72"]),
-	sand: makeLightPalette("رملي ونحاسي", ["#FBF5EC", "#FFFDFA", "#F2E6D8", "#40281D", "#A95F3E", "#F3E6D7", "#4D3B31", "#817064", "251, 245, 236", "243, 230, 215", "169, 95, 62", "64, 40, 29"]),
-	sage: makeLightPalette("مريمي وغابي", ["#F1F6EF", "#FCFEFB", "#E2EBDD", "#243B2B", "#4B7755", "#E0EBDD", "#3E5041", "#68796C", "241, 246, 239", "224, 235, 221", "75, 119, 85", "36, 59, 43"]),
-	blush: makeLightPalette("وردي وعنابي", ["#FBF1F4", "#FFFCFD", "#F2E2E7", "#482735", "#9A526B", "#F3E1E7", "#4D3942", "#806F76", "251, 241, 244", "243, 225, 231", "154, 82, 107", "72, 39, 53"]),
-	ice: makeLightPalette("جليدي وأزرق", ["#EFF6FA", "#FCFEFF", "#DCEBF2", "#203D4C", "#36789A", "#DDEBF2", "#344A56", "#687C85", "239, 246, 250", "221, 235, 242", "54, 120, 154", "32, 61, 76"]),
-	lavender: makeLightPalette("لافندر وبنفسجي", ["#F5F1FA", "#FDFBFF", "#E9E1F2", "#3B2C4E", "#73549A", "#EAE2F2", "#493B59", "#786B87", "245, 241, 250", "234, 226, 242", "115, 84, 154", "59, 44, 78"]),
-	mint: makeLightPalette("نعناعي وبترولي", ["#EDF7F5", "#FBFEFD", "#DCEEEA", "#1C3C37", "#26796D", "#DCEEEA", "#334E49", "#687F79", "237, 247, 245", "220, 238, 234", "38, 121, 109", "28, 60, 55"]),
-	"cream-gold": makeLightPalette("كريمي وذهبي", ["#FAF7ED", "#FFFEFA", "#F0E7CE", "#3D331F", "#947129", "#F0E7CE", "#4F4734", "#82785E", "250, 247, 237", "240, 231, 206", "148, 113, 41", "61, 51, 31"]),
-	pearl: makeLightPalette("لؤلؤي وفحمي", ["#F4F5F5", "#FFFFFF", "#E5E8E8", "#28383C", "#435B60", "#E5E8E8", "#3C4B4E", "#6D797B", "244, 245, 245", "229, 232, 232", "67, 91, 96", "40, 56, 60"])
-});
 
 const selectedByMode = { dark: "original", light: "ivory" };
 let activeMode = "dark";
@@ -324,7 +98,6 @@ let activeMode = "dark";
 function selectPalette(id) {
 	const palette = palettes[id];
 	if (!palette) return;
-	const mode = palette.mode || "dark";
 
 	Object.entries(palette.values).forEach(([property, value]) => {
 		root.style.setProperty(property, value);
@@ -333,14 +106,9 @@ function selectPalette(id) {
 	root.style.setProperty("--borhan-taupe", palette.values["--borhan-taupe"] || "#A6A19B");
 	root.style.setProperty("--borhan-charcoal", palette.values["--borhan-charcoal"] || "#4F4F51");
 	root.style.setProperty("--borhan-white", palette.values["--borhan-white"] || "#FFFFFF");
-	root.style.colorScheme = mode;
-	root.dataset.paletteMode = mode;
-	if (palette.values["--theme-grid-rgb"]) {
-		root.style.setProperty("--theme-grid-rgb", palette.values["--theme-grid-rgb"]);
-	} else {
-		root.style.setProperty("--theme-grid-rgb", palette.values["--theme-cream-rgb"]);
-	}
-	selectedByMode[mode] = id;
+	root.style.colorScheme = palette.mode;
+	root.dataset.paletteMode = palette.mode;
+	selectedByMode[palette.mode] = id;
 
 	const themeColor = document.querySelector('meta[name="theme-color"]');
 	if (themeColor) themeColor.content = palette.values["--c-bg"];
